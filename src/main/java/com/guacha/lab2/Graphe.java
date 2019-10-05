@@ -49,12 +49,23 @@ public class Graphe {
         Esto generaría un triángulo equilatero con sus tres aristas de peso 5
     */    
     
+    /**
+     * Mapa que relaciona los Vértices con sus conexiones, y cada conexión relaciona
+     * el destino con su repsectivo peso
+     */
     private final Map<Sommet, Map<Sommet, Integer>> sommAdj;
-
+    
+    /**
+     * Constructor estándar para un grafo, genera un mapa vacío para las relaciones
+     */
     public Graphe() {
         this.sommAdj = new HashMap<>();
     }
-
+    
+    /**
+     * Getter estándar para el mapa de relaciones
+     * @return El mapa de relaciones de este grafo
+     */
     public Map<Sommet, Map<Sommet, Integer>> getSommAdj() {
         return sommAdj;
     }
@@ -102,7 +113,7 @@ public class Graphe {
      * @param V1 El primer vértice de la conexión
      * @param V2 El segundo vértice de la conexión
      * @param poids El peso de la arista creada entre los dos vértices. Siempre 
-     * es > 0
+     * debe ser mayor que 0
      */
     public void addArete(Sommet V1, Sommet V2, int poids) {
         sommAdj.get(V1).putIfAbsent(V2, poids);
@@ -198,8 +209,8 @@ public class Graphe {
      * Para propósitos de este grafo, A y B son completamente intercambiables, 
      * dado que el grafo es no dirigido.
      * @param A El vértice origen de la arista
-     * @param B
-     * @param i 
+     * @param B El vértice destino de la arista
+     * @param i El nuevo peso de la arista
      */
     public void setPoids(Sommet A, Sommet B, int i) {
         for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {

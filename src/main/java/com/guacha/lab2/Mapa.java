@@ -11,19 +11,19 @@ import java.awt.Point;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Interfaz principal que contiene todos las opciones del programa en su totalidad
  * @author Guacha
  */
 public class Mapa extends javax.swing.JFrame {
-
     /**
      * Creates new form Mapa
      */
     
-    Graphics g;
-    Graphe graphe;
-    int cont = 0;
-    Sommet sel;
+    private final Graphics g;
+    private Graphe graphe;
+    private Sommet sel;
+    
+    
     public Mapa() {
         initComponents();
         g = drawPanel.getGraphics();
@@ -220,7 +220,7 @@ public class Mapa extends javax.swing.JFrame {
     /**
      * Función que se encarga de dibujar el grafo en pantalla sobre el panel de dibujo
      */
-    void dessinerGraphe() {
+    public void dessinerGraphe() {
         clearPane(); //Limpiar el panel
         graphe.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
             int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
@@ -242,7 +242,7 @@ public class Mapa extends javax.swing.JFrame {
      * Esta recibe el parámetro V, que es un nodo "marcado", y a a la hora de dibujarlo, tendrá distinto color
      * @param v El nodo a marcar en el grafo
      */
-    void dessinerGraphe(Sommet v) {
+    public void dessinerGraphe(Sommet v) {
         //Todo es exactamente igual a la función anterior, solo que en la 
         //selección del color, si es el nodo marcado, será verde.
         clearPane();
@@ -266,14 +266,6 @@ public class Mapa extends javax.swing.JFrame {
         });
     }
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel drawPanel;
-    private javax.swing.JButton editArete;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea output;
-    private javax.swing.JButton ouvrir;
-    private javax.swing.JButton sauvegarder;
-    // End of variables declaration//GEN-END:variables
     /**
      * Función que limpia el panel completo.<p>
      * En realidad, crea un cuadrado de 1000x1000 empezando en [0,0] en blanco
@@ -320,10 +312,23 @@ public class Mapa extends javax.swing.JFrame {
         output.append(graphe.soutGraphe(trouve));
     }
 
-    //Getter
+    /**
+     * Getter para el TextArea llamado "output" que existe en la ventana principal
+     * @return JTextArea "output" de la ventana Mapa
+     */
     public JTextArea getOutput() {
         return output;
     }
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel drawPanel;
+    private javax.swing.JButton editArete;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea output;
+    private javax.swing.JButton ouvrir;
+    private javax.swing.JButton sauvegarder;
+    // End of variables declaration//GEN-END:variables
+    
     
     
 }
