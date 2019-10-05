@@ -63,7 +63,7 @@ public class Graphe {
      * Añade el vértice ingresado a la lista de vértices del grafo
      * @param s El vértice a añadir
      */
-    void addVert(Sommet s) {
+    public void addVert(Sommet s) {
         sommAdj.putIfAbsent(s, new HashMap<>());
     }
     
@@ -73,7 +73,7 @@ public class Graphe {
      * a él
      * @param v Instancia del vértice que se desee eliminar
      */
-    void quitVert(Sommet v) {
+    public void quitVert(Sommet v) {
         sommAdj.values().forEach((value) -> {
             value.remove(v);
         });
@@ -87,7 +87,7 @@ public class Graphe {
      * @return El vértice que tenga el <b>nom</b> ingresado. Nulo si no existe 
      * un vértice con ese nombre
      */
-    Sommet getSommet(String nom) {
+    public Sommet getSommet(String nom) {
         for (Sommet sommet : sommAdj.keySet()) {
             if (sommet.nombre.equals(nom)) {
                 return sommet;
@@ -104,7 +104,7 @@ public class Graphe {
      * @param poids El peso de la arista creada entre los dos vértices. Siempre 
      * es > 0
      */
-    void addArete(Sommet V1, Sommet V2, int poids) {
+    public void addArete(Sommet V1, Sommet V2, int poids) {
         sommAdj.get(V1).putIfAbsent(V2, poids);
         sommAdj.get(V2).putIfAbsent(V1, poids);
     }
@@ -114,7 +114,7 @@ public class Graphe {
      * @param V1 El primer vértice conectado
      * @param V2 El segundo vértice conectado
      */
-    void quitArete(Sommet V1, Sommet V2) {
+    public void quitArete(Sommet V1, Sommet V2) {
         Map aV1 = sommAdj.get(V1), aV2 = sommAdj.get(V2);
         
         if (aV1 != null) {
@@ -132,7 +132,7 @@ public class Graphe {
      * @return Una cadena escribible que contiene toda la información organizada 
      * del vértice
      */
-    String soutGraphe(Sommet s) {
+    public String soutGraphe(Sommet s) {
         StringBuilder sb = new StringBuilder();
         sb.append("Conexiones de ").append(s.nombre).append("\n");
         if (sommAdj.get(s).isEmpty()) {
@@ -151,7 +151,7 @@ public class Graphe {
      * grafo, la junta y la organiza en una cadena escribible
      * @return Una cadena escribible que contiene toda la información del grafo
      */
-    String soutGraphe() {
+    public String soutGraphe() {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Sommet, Map<Sommet, Integer>> entry : sommAdj.entrySet()) {
             sb.append("Conexiones de ").append(entry.getKey().nombre).append(": ");
@@ -172,7 +172,7 @@ public class Graphe {
      * @param b El otro vértice a comparar
      * @return True si existe una arista entre A y B, False si no
      */
-    boolean existArete(Sommet a, Sommet b) {
+    public boolean existArete(Sommet a, Sommet b) {
         return sommAdj.get(a).keySet().stream().anyMatch((somm) -> (somm.equals(b)));
     }
     
@@ -184,7 +184,7 @@ public class Graphe {
      * @param B El vértice destino de la arista
      * @return El peso de la arista entre A y B. Retorna 0 si la arista no existe
      */
-    int getPoids(Sommet A, Sommet B) {
+    public int getPoids(Sommet A, Sommet B) {
         for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {
             if (entry.getKey().equals(B)) {
                 return entry.getValue();
@@ -201,7 +201,7 @@ public class Graphe {
      * @param B
      * @param i 
      */
-    void setPoids(Sommet A, Sommet B, int i) {
+    public void setPoids(Sommet A, Sommet B, int i) {
         for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {
             if (entry.getKey().equals(B)) {
                 entry.setValue(i);
@@ -209,7 +209,15 @@ public class Graphe {
         }
     }
     
-    
+    /**
+     * Función de utilidad para hallar ciclos dentro del grafo
+     * @param s El vértice actual sobre el que se trabaja
+     * @param visites Un mapa que relaciona los vértices con un boleano que indica
+     * si ya se visitó ese vértice
+     * @param pere El vértice adyacente por el que se llegó al actual
+     * @return True si se encuentra un camino para regresar al mismo vértice 
+     * desde otro disinto al inicial
+     */
     private boolean cycleUtil(Sommet s, Map<Sommet, Boolean> visites, Sommet pere) {
         
         visites.replace(s, Boolean.TRUE);
@@ -225,7 +233,13 @@ public class Graphe {
         }
         return false;
     }
-    
+    /**
+     * Función que utiliza el metodo cycleUtil() en cada vértice para hallar 
+     * todas las posibilidades de ciclo
+     * @see com.guacha.lab2.Graphe#cycleUtil(com.guacha.lab2.Sommet, java.util.Map, com.guacha.lab2.Sommet) cycleUtil()
+     * @return True si para cualquier vértice del grafo, el método cycleUtil() 
+     * retorna verdadero
+     */
     public boolean isCyclic() {
         Map<Sommet, Boolean> visites = new HashMap<>();
         
