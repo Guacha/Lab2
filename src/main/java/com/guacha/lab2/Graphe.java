@@ -47,7 +47,8 @@ public class Graphe {
         [Nodo C] -> {[Nodo A, 5], [Nodo B, 5]}
     
         Esto generaría un triángulo equilatero con sus tres aristas de peso 5
-    */
+    */    
+    
     private final Map<Sommet, Map<Sommet, Integer>> sommAdj;
 
     public Graphe() {
@@ -58,10 +59,20 @@ public class Graphe {
         return sommAdj;
     }
     
+    /**
+     * Añade el vértice ingresado a la lista de vértices del grafo
+     * @param s El vértice a añadir
+     */
     void addVert(Sommet s) {
         sommAdj.putIfAbsent(s, new HashMap<>());
     }
     
+    /**
+     * Borra el vértice ingresado de la lista de vertices del grafo <p>
+     * recíprovcamente, se borran todas sus conexiones con vértices adyacentes
+     * a él
+     * @param v Instancia del vértice que se desee eliminar
+     */
     void quitVert(Sommet v) {
         sommAdj.values().forEach((value) -> {
             value.remove(v);
@@ -69,6 +80,13 @@ public class Graphe {
         sommAdj.remove(v);
     }
     
+    /**
+     * Busca un vértice que tenga el nombre ingresado en la lista de vértices
+     * del grafo
+     * @param nom el nombre del vertice que se deasee buscar
+     * @return El vértice que tenga el <b>nom</b> ingresado. Nulo si no existe 
+     * un vértice con ese nombre
+     */
     Sommet getSommet(String nom) {
         for (Sommet sommet : sommAdj.keySet()) {
             if (sommet.nombre.equals(nom)) {
@@ -78,11 +96,24 @@ public class Graphe {
         return null;
     }
     
+    /**
+     * Añade una conexión bidireccional entre los dos vértices ingresados en la
+     * lista de adyacencia
+     * @param V1 El primer vértice de la conexión
+     * @param V2 El segundo vértice de la conexión
+     * @param poids El peso de la arista creada entre los dos vértices. Siempre 
+     * es > 0
+     */
     void addArete(Sommet V1, Sommet V2, int poids) {
         sommAdj.get(V1).putIfAbsent(V2, poids);
         sommAdj.get(V2).putIfAbsent(V1, poids);
     }
     
+    /**
+     * Elimina una arista entre los dos vértices ingresados (si existe)
+     * @param V1 El primer vértice conectado
+     * @param V2 El segundo vértice conectado
+     */
     void quitArete(Sommet V1, Sommet V2) {
         Map aV1 = sommAdj.get(V1), aV2 = sommAdj.get(V2);
         
@@ -94,6 +125,13 @@ public class Graphe {
         }
     }
     
+    /**
+     * Función que obtiene toda la información pertinente del vértice ingresado 
+     * y la organiza en una cadena escribible
+     * @param s El vértice del que se desea escribir la información
+     * @return Una cadena escribible que contiene toda la información organizada 
+     * del vértice
+     */
     String soutGraphe(Sommet s) {
         StringBuilder sb = new StringBuilder();
         sb.append("Conexiones de ").append(s.nombre).append("\n");
@@ -108,6 +146,11 @@ public class Graphe {
         return sb.toString();
     }
     
+    /**
+     * Función que obtiene toda la información pertinente de cada vértice del 
+     * grafo, la junta y la organiza en una cadena escribible
+     * @return Una cadena escribible que contiene toda la información del grafo
+     */
     String soutGraphe() {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Sommet, Map<Sommet, Integer>> entry : sommAdj.entrySet()) {
@@ -121,26 +164,51 @@ public class Graphe {
         return sb.toString();
     }
 
-    boolean existArete(Sommet edit, Sommet rel) {
-        return sommAdj.get(edit).keySet().stream().anyMatch((somm) -> (somm.equals(rel)));
+    /**
+     * Verifica si existe una arista entre los vértices A y B <p>
+     * Para propósitos de este grafo, A y B son completamente intercambiables, 
+     * ado que el grafo es no dirigido.
+     * @param a Uno de los vértices a comparar
+     * @param b El otro vértice a comparar
+     * @return True si existe una arista entre A y B, False si no
+     */
+    boolean existArete(Sommet a, Sommet b) {
+        return sommAdj.get(a).keySet().stream().anyMatch((somm) -> (somm.equals(b)));
     }
-
-    int getPoids(Sommet edit, Sommet rel) {
-        for (Map.Entry<Sommet, Integer> entry : sommAdj.get(edit).entrySet()) {
-            if (entry.getKey().equals(rel)) {
+    
+    /**
+     * Retorna el peso de la arista entre A y B (Si existe). <p>
+     * Para propósitos de este grafo, A y B son completamente intercambiables, 
+     * ado que el grafo es no dirigido.
+     * @param A El vértice origen de la arista
+     * @param B El vértice destino de la arista
+     * @return El peso de la arista entre A y B. Retorna 0 si la arista no existe
+     */
+    int getPoids(Sommet A, Sommet B) {
+        for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {
+            if (entry.getKey().equals(B)) {
                 return entry.getValue();
             }
         }
         return 0;
     }
-
-    void setPoids(Sommet edit, Sommet rel, int i) {
-        for (Map.Entry<Sommet, Integer> entry : sommAdj.get(edit).entrySet()) {
-            if (entry.getKey().equals(rel)) {
+    
+    /**
+     * Edita el peso de la arista entre A y B (Si existe). <p>
+     * Para propósitos de este grafo, A y B son completamente intercambiables, 
+     * dado que el grafo es no dirigido.
+     * @param A El vértice origen de la arista
+     * @param B
+     * @param i 
+     */
+    void setPoids(Sommet A, Sommet B, int i) {
+        for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {
+            if (entry.getKey().equals(B)) {
                 entry.setValue(i);
             }
         }
     }
+    
     
     private boolean cycleUtil(Sommet s, Map<Sommet, Boolean> visites, Sommet pere) {
         
