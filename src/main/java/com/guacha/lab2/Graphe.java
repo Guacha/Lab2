@@ -8,6 +8,7 @@ package com.guacha.lab2;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -141,17 +142,37 @@ public class Graphe {
         }
     }
     
-    List<Sommet> dijkstra(Sommet start, Sommet fin) {
-        Map<Sommet, Map<Sommet, Integer>> dejaSels = new HashMap<>();
-        HashMap aux = new HashMap<>();
-        aux.put(start, 0);
-        dejaSels.putIfAbsent(start, aux);
+    private boolean cycleUtil(Sommet s, Map<Sommet, Boolean> visites, Sommet pere) {
         
-        for (int i = 0; i < sommAdj.size()-1; i++) {
-            
+        visites.replace(s, Boolean.TRUE);
+        
+        Set<Sommet> adj = sommAdj.get(s).keySet();
+        
+        for (Sommet sommet : adj) {
+            if(!visites.get(sommet)){
+                if(cycleUtil(sommet, visites, s))
+                    return true;
+            }else if (sommet != pere)
+                return true;
         }
+        return false;
     }
     
+    public boolean isCyclic() {
+        Map<Sommet, Boolean> visites = new HashMap<>();
+        
+        for (Sommet sommet : sommAdj.keySet()) {
+            visites.put(sommet, Boolean.FALSE);
+        }
+        
+        for (Sommet sommet : sommAdj.keySet()) {
+            if(!visites.get(sommet))
+                if (cycleUtil(sommet, visites, null)) {
+                    return true;
+                }
+        }
+        return false;        
+    }
     
     
 }

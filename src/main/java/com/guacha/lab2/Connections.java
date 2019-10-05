@@ -227,6 +227,7 @@ public class Connections extends javax.swing.JFrame {
                 }
                 m.dessinerGraphe();
                 m.showInfo(s);
+                System.out.println(g.isCyclic());
                 this.dispose();
             }
         } else { //Si entramos por el otro constructor (Constructor de Edición de arista)
@@ -253,6 +254,7 @@ public class Connections extends javax.swing.JFrame {
             }
             m.dessinerGraphe();
             m.showInfo(edit);
+            System.out.println(g.isCyclic());
             this.dispose();
         }
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -271,6 +273,7 @@ public class Connections extends javax.swing.JFrame {
             }
             m.dessinerGraphe();
             m.getOutput().setText("Vértice " + edit.nombre + " eliminado!"); //Se escribe en el output de la ventana principal
+            System.out.println(g.isCyclic());
             this.dispose();
         }
     }//GEN-LAST:event_elimSommActionPerformed
@@ -279,6 +282,7 @@ public class Connections extends javax.swing.JFrame {
       * Se añaden JSpinners, uno por cada vértice, para representar las conexiones con peso entre cada par de vértices
       */
     private void initialiserNouvelle() {
+        elimSomm.setVisible(false);
         cons = new ArrayList<>();
         this.setTitle("Nuevo vértice");
         chkPanel.setLayout(new BoxLayout(chkPanel, BoxLayout.Y_AXIS));
@@ -293,7 +297,6 @@ public class Connections extends javax.swing.JFrame {
         });
         chkPanel.revalidate();
         chkPanel.repaint();
-        this.pack();
     }
     /**
       * Función para inicializar la ventana cuando se desea editar un vértice <p>
