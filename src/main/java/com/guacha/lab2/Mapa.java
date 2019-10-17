@@ -8,26 +8,34 @@ package com.guacha.lab2;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.JTextArea;
 
 /**
  * Interfaz principal que contiene todos las opciones del programa en su totalidad
  * @author Guacha
  */
-public class Mapa extends javax.swing.JFrame {
-    /**
-     * Creates new form Mapa
-     */
+public final class Mapa extends javax.swing.JFrame {
     
     private final Graphics g;
     private Graphe graphe;
     private Sommet sel;
-    
+    private BufferedImage bg;
     
     public Mapa() {
         initComponents();
         g = drawPanel.getGraphics();
-        this.graphe = new Graphe();
+        Ficheur f = new Ficheur();
+        graphe = new Graphe();
+        try {
+            bg = ImageIO.read(getClass().getResource("/metro.jpg"));
+        } catch (IOException ex) {
+            bg = null;
+        }
+        drawBG();
     }
 
     /**
@@ -39,32 +47,16 @@ public class Mapa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        drawPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
         editArete = new javax.swing.JButton();
         sauvegarder = new javax.swing.JButton();
         ouvrir = new javax.swing.JButton();
+        enruter = new javax.swing.JButton();
+        tog = new javax.swing.JToggleButton();
+        drawPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        drawPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        drawPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                drawPanelMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout drawPanelLayout = new javax.swing.GroupLayout(drawPanel);
-        drawPanel.setLayout(drawPanelLayout);
-        drawPanelLayout.setHorizontalGroup(
-            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
-        );
-        drawPanelLayout.setVerticalGroup(
-            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
-        );
 
         output.setEditable(false);
         output.setColumns(20);
@@ -93,6 +85,39 @@ public class Mapa extends javax.swing.JFrame {
             }
         });
 
+        enruter.setText("Obtener Ruta");
+        enruter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enruterActionPerformed(evt);
+            }
+        });
+
+        tog.setText("jToggleButton1");
+        tog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                togActionPerformed(evt);
+            }
+        });
+
+        drawPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        drawPanel.setMinimumSize(new java.awt.Dimension(676, 818));
+        drawPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                drawPanelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout drawPanelLayout = new javax.swing.GroupLayout(drawPanel);
+        drawPanel.setLayout(drawPanelLayout);
+        drawPanelLayout.setHorizontalGroup(
+            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 672, Short.MAX_VALUE)
+        );
+        drawPanelLayout.setVerticalGroup(
+            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 814, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,32 +125,46 @@ public class Mapa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(drawPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(editArete, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editArete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(sauvegarder)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ouvrir)))))
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addComponent(ouvrir))
+                            .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(tog)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(drawPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(tog)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(12, Short.MAX_VALUE)
+                        .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(editArete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(sauvegarder)
-                            .addComponent(ouvrir))))
+                            .addComponent(ouvrir))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enruter))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
@@ -153,8 +192,10 @@ public class Mapa extends javax.swing.JFrame {
             sel = null;
             Connections c = new Connections(graphe, this, evt.getPoint()); //Abre la ventana de cración/Edición de vértices con constructor de creación
             c.setVisible(true);
+            drawBG();
             dessinerGraphe();
         } else {
+            drawBG();
             dessinerGraphe(found);
             sel = found;
             showInfo(found);
@@ -182,6 +223,17 @@ public class Mapa extends javax.swing.JFrame {
             new Connections(graphe, this, sel).setVisible(true);
         }
     }//GEN-LAST:event_editAreteActionPerformed
+    /**
+     * Función que se llama al presionar el botón para mostrar las rutas <p>
+     * Genera un MST y lo dibuja
+     */
+    private void enruterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enruterActionPerformed
+        dessinerGraphe(graphe.kruskalMST());
+    }//GEN-LAST:event_enruterActionPerformed
+
+    private void togActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togActionPerformed
+ 
+    }//GEN-LAST:event_togActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,15 +274,23 @@ public class Mapa extends javax.swing.JFrame {
      */
     public void dessinerGraphe() {
         clearPane(); //Limpiar el panel
+        drawBG();
         graphe.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
             int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
             x1 = entry.getKey().pos.x;                      //obtener [X,Y] del nodo por graficar
             y1 = entry.getKey().pos.y;
-            for (Sommet sommet : entry.getValue().keySet()) {//Se busca en las relaciones de ese nodo
-                x2 = sommet.pos.x;                           //Se obtiene las [X,Y] del nodo relacionado y se dibuja la linea y el nodo al final de la linea
+            for (Map.Entry<Sommet, Integer> rel : entry.getValue().entrySet()) {//Se busca en las relaciones de ese nodo
+               Sommet sommet = rel.getKey();
+                x2 = sommet.pos.x;                                              //Se obtiene las [X,Y] del nodo relacionado y se dibuja la linea y el nodo al final de la linea
                 y2 = sommet.pos.y;
-                g.setColor(Color.red);
+                int xMed = (x1+x2)/2;                                           //Se obtiene el punto medio [X,Y] en la arista a dibujar para poner el peso de la misma
+                int yMed = (y1+y2)/2;
+                g.setColor(Color.black);
                 g.drawLine(x1, y1, x2, y2);
+                g.setColor(Color.BLACK);
+                g.fillRect(xMed-7, yMed-7, 14, 14);
+                g.setColor(Color.white);
+                g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
             }
             g.setColor(getColor(entry.getKey()));
             g.fillOval(x1-5, y1-5, 10, 10);
@@ -246,16 +306,24 @@ public class Mapa extends javax.swing.JFrame {
         //Todo es exactamente igual a la función anterior, solo que en la 
         //selección del color, si es el nodo marcado, será verde.
         clearPane();
+        drawBG();
         graphe.getSommAdj().entrySet().forEach((entry) -> {
-            int x1, y1, x2, y2;
+            int x1, y1, x2, y2, xMed, yMed;
             x1 = entry.getKey().pos.x;
             y1 = entry.getKey().pos.y;
             
-            for (Sommet sommet : entry.getValue().keySet()) {
+            for (Map.Entry<Sommet, Integer> rel : entry.getValue().entrySet()) {
+                Sommet sommet = rel.getKey();
                 x2 = sommet.pos.x;
                 y2 = sommet.pos.y;
-                g.setColor(Color.red);
+                xMed = (x1+x2)/2;
+                yMed = (y1 + y2)/2;
+                g.setColor(Color.black);
                 g.drawLine(x1, y1, x2, y2);
+                g.setColor(Color.BLACK);
+                g.fillRect(xMed-7, yMed-7, 14, 14);
+                g.setColor(Color.white);
+                g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
             }
             if (entry.getKey().equals(v)) {
                 g.setColor(Color.green);
@@ -266,6 +334,33 @@ public class Mapa extends javax.swing.JFrame {
         });
     }
     
+    public void dessinerGraphe(Graphe graph) {
+        dessinerGraphe();
+        graph.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
+            int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
+            x1 = entry.getKey().pos.x;                      //obtener [X,Y] del nodo por graficar
+            y1 = entry.getKey().pos.y;
+            for (Map.Entry<Sommet, Integer> rel : entry.getValue().entrySet()) {//Se busca en las relaciones de ese nodo
+               Sommet sommet = rel.getKey();
+                x2 = sommet.pos.x;                                              //Se obtiene las [X,Y] del nodo relacionado y se dibuja la linea y el nodo al final de la linea
+                y2 = sommet.pos.y;
+                int xMed = (x1+x2)/2;                                           //Se obtiene el punto medio [X,Y] en la arista a dibujar para poner el peso de la misma
+                int yMed = (y1+y2)/2;
+                g.setColor(Color.RED);
+                g.drawLine(x1, y1, x2, y2);
+                g.drawLine(x1+1, y1, x2+1, y2);
+                g.drawLine(x1-1, y1, x2-1, y2);
+                g.setColor(Color.BLACK);
+                g.fillRect(xMed-7, yMed-7, 14, 14);
+                g.setColor(Color.white);
+                g.drawString(String.valueOf(rel.getValue()), xMed-6, yMed+5);
+            }
+            g.setColor(Color.getHSBColor((float)0.7, (float)1, (float)1));
+            g.fillOval(x1-5, y1-5, 10, 10);
+        });
+        
+    }
+    
     /**
      * Función que limpia el panel completo.<p>
      * En realidad, crea un cuadrado de 1000x1000 empezando en [0,0] en blanco
@@ -274,6 +369,9 @@ public class Mapa extends javax.swing.JFrame {
         g.clearRect(0, 0, 1000, 1000);
     }
     
+    private void drawBG() {
+        g.drawImage(bg, 0, 0, null);
+    }
     
     /**
      * Retorna un color dependiendo del tipo de estación que teng aun vértice
@@ -281,17 +379,17 @@ public class Mapa extends javax.swing.JFrame {
      * @return el color con el que dse va a dibujar el vértice
      */
     private Color getColor(Sommet s) {
-        switch(s.type) {
-            case STATION_BUS:
-                return Color.BLACK;
-            case STATION_METRO:
-                return Color.RED;
-            case STATION_BUSDENUIT:
-                return Color.MAGENTA;
-            case STATION_MULTI:
-                return Color.ORANGE;
+        switch(s.ligne) {
+            case LIGNE_VERTE:
+                return Color.GREEN;
+            case LIGNE_ORANGE:
+                return Color.orange;
+            case LIGNE_BLEUE:
+                return Color.blue;
+            case LIGNE_JAUNE:
+                return Color.yellow;
             default:
-                return Color.BLACK;
+                return Color.green;
         }
     }
     /**
@@ -323,10 +421,12 @@ public class Mapa extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel drawPanel;
     private javax.swing.JButton editArete;
+    private javax.swing.JButton enruter;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea output;
     private javax.swing.JButton ouvrir;
     private javax.swing.JButton sauvegarder;
+    private javax.swing.JToggleButton tog;
     // End of variables declaration//GEN-END:variables
     
     

@@ -5,8 +5,10 @@
  */
 package com.guacha.lab2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -165,7 +167,7 @@ public class Graphe {
     public String soutGraphe() {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Sommet, Map<Sommet, Integer>> entry : sommAdj.entrySet()) {
-            sb.append("Conexiones de ").append(entry.getKey().nombre).append(": ");
+            sb.append("Conexiones de ").append(entry.getKey().nombre).append(": ").append("\n");
             for (Map.Entry<Sommet, Integer> con : entry.getValue().entrySet()) {
                 sb.append("\t").append(con.getKey().nombre).append(" Con peso: ").append(con.getValue());
                 sb.append("\n");
@@ -184,7 +186,7 @@ public class Graphe {
      * @return True si existe una arista entre A y B, False si no
      */
     public boolean existArete(Sommet a, Sommet b) {
-        return sommAdj.get(a).keySet().stream().anyMatch((somm) -> (somm.equals(b)));
+        return sommAdj.get(a).containsKey(b) && sommAdj.get(b).containsKey(a);
     }
     
     /**
@@ -213,11 +215,8 @@ public class Graphe {
      * @param i El nuevo peso de la arista
      */
     public void setPoids(Sommet A, Sommet B, int i) {
-        for (Map.Entry<Sommet, Integer> entry : sommAdj.get(A).entrySet()) {
-            if (entry.getKey().equals(B)) {
-                entry.setValue(i);
-            }
-        }
+        sommAdj.get(A).replace(B, i);
+        sommAdj.get(B).replace(A, i);
     }
     
     /**
@@ -244,6 +243,7 @@ public class Graphe {
         }
         return false;
     }
+    
     /**
      * Función que utiliza el metodo cycleUtil() en cada vértice para hallar 
      * todas las posibilidades de ciclo
@@ -254,18 +254,245 @@ public class Graphe {
     public boolean isCyclic() {
         Map<Sommet, Boolean> visites = new HashMap<>();
         
-        for (Sommet sommet : sommAdj.keySet()) {
+        sommAdj.keySet().forEach((sommet) -> {
             visites.put(sommet, Boolean.FALSE);
-        }
+        });
         
-        for (Sommet sommet : sommAdj.keySet()) {
-            if(!visites.get(sommet))
-                if (cycleUtil(sommet, visites, null)) {
-                    return true;
-                }
+        if (sommAdj.keySet().stream().filter((sommet) -> (!visites.get(sommet))).anyMatch((sommet) -> (cycleUtil(sommet, visites, null)))) {
+            return true;
         }
         return false;        
     }
     
+    /**
+     * Función boleana que retorna verdadero si el árbol es conexo<p>
+     * El método realiza un recorrido desde un vértice arbitrario, y entonces 
+     * compara el tamaño de la lista obtenida por el método DFS(), y si esta 
+     * contiene todos los vértices, entonces el arbol es conexo
+     * @return True si y solo si la lista obtenida por el método DFS() contiene todos
+     * los vértices del grafo.
+     * @see com.guacha.lab2.Graphe#DFS() DFS()
+     */
+    public boolean isConnecte() {
+        return DFS().size() == sommAdj.size();
+    }
+    
+    /**
+     * Método publico que hace un recorrido de vértices por profundidad
+     * @return Una lista enlzadada que contiene los vértices que se recorrieron en
+     * orden.
+     * @see com.guacha.lab2.Graphe#DFSUtil(com.guacha.lab2.Sommet, java.util.Map, java.util.LinkedList) DFSUtil()
+     */
+    public LinkedList<Sommet> DFS() {
+        Map<Sommet, Boolean> m = new HashMap<>();
+        sommAdj.keySet().forEach((sommet) -> {
+            m.put(sommet, Boolean.FALSE);
+        });
+        Sommet fst = sommAdj.keySet().iterator().next();
+        LinkedList<Sommet> liste = new LinkedList<>();
+        return DFSUtil(fst, m, liste);
+    }
+    
+    /**
+     * Función de utulidad para el DFS, recorre el grafo recursivamente y va añadiendo
+     * vertices a una lista. <p>
+     * Se obvian los vértices que ya se hayan visitado
+     * @param actuelle El vértice actual sobre el que se trabaja
+     * @param visites La lista de los vértices ya visitados (HashMap)
+     * @param liste La lista resultado
+     * @return La lista de vertices encontrados una vez se termina el recorrido
+     */
+    private LinkedList<Sommet> DFSUtil(Sommet actuelle, Map<Sommet, Boolean> visites, LinkedList<Sommet> liste) {
+        visites.replace(actuelle, true);
+
+        liste.add(actuelle);
+        for (Sommet sommet : sommAdj.get(actuelle).keySet()) {
+            if (!visites.get(sommet)) {
+                DFSUtil(sommet, visites, liste);
+            }
+        }
+        
+        return liste;
+    }
+    
+    /**
+     * Esta función retorna un objeto de tipo grafo igual a este en el que están 
+     * contenidos todos los vértices de el grafo padre, pero solo está conectado 
+     * en forma de MST (Árbol de expansión mínima). <p>
+     * Este método usa el algoritmo de Kruskal, por el cual, se busca de entre 
+     * todas las aristas, la de menor peso, y se añade al arbol siempre y cuando 
+     * esta no forme un ciclo
+     * @return Un grafo que contiene el MST del grafo ingresado
+     */
+    public Graphe kruskalMST() {
+        //Lista de aristas que se han intentado de añadir al árbol
+        Map<Sommet, Map<Sommet, Boolean>> revises = new HashMap<>();                            //En esta lista se añaden las aristas que se intentaron ingresar, aunque no sean válidas para el MST
+        Graphe MST = new Graphe();
+        
+        //Expresión para llenar la lista de visitados de false, y para añadir todos
+        //los vértices del grafo al MST
+        sommAdj.entrySet().stream().map((entry) -> {                                            //Expresión Lambda
+            MST.addVert(entry.getKey());
+            return entry;
+        }).forEachOrdered((entry) -> {
+            Map<Sommet, Boolean> map = new HashMap();
+            entry.getValue().entrySet().stream().map((arete) -> {
+                map.put(arete.getKey(), false);
+                return arete;
+            }).forEachOrdered((_item) -> {
+                revises.put(entry.getKey(), map);
+            });
+        });
+        
+        //Se añaden aristas válidas hasta que el MST sea conexo
+        while(!MST.isConnecte()){
+            boolean added = false;
+            Sommet sel1 = null, sel2 = null;
+            int poids = Integer.MAX_VALUE;
+            while(!added){
+                
+                //Se busca la arista de menor peso de entre todas las aristas del grafo
+                for (Map.Entry<Sommet, Map<Sommet, Integer>> entry : sommAdj.entrySet()) {
+                    for (Map.Entry<Sommet, Integer> ent : entry.getValue().entrySet()) {
+                        if (ent.getValue() < poids && !revises.get(entry.getKey()).get(ent.getKey())) {
+                            sel1 = entry.getKey();
+                            sel2 = ent.getKey();
+                            poids = ent.getValue();
+                        }
+                    }
+                }
+                //Si se encontró una arista válida
+                if (sel1 != null) {  
+                    //Se añade la arista
+                    MST.addArete(sel1, sel2, poids);
+                    revises.get(sel1).put(sel2, true);
+                    revises.get(sel2).put(sel1, true);
+                    
+                    //Se verifica si es cíclico
+                    if (MST.isCyclic()) {
+                        //Si es cíclico, se quita la arista añadida
+                        MST.quitArete(sel1, sel2);
+                        poids = Integer.MAX_VALUE;
+                    } else {
+                        //Si no, se deja añadida
+                        added = true;
+                    }
+                }
+            }
+        }
+        return MST;
+    }
+    /**
+     * Esta función retorna un objeto de tipo grafo igual a este en el que están 
+     * contenidos todos los vértices de el grafo padre, pero solo está conectado 
+     * en forma de MST (Árbol de expansión mínima). <p>
+     * Este método utiliza el algoritmo de Prim, por el cual, se inicia en un 
+     * vértice dado, y se toma la arista de menor peso que incida en este, luego 
+     * se toman todos los vetices sobre los que incide la arista seleccionada, y 
+     * así sucesivamente hasta tener un MST
+     * @param start el vértice en el que se va a iniciar
+     * @return Un grafo que contiene el MST del grafo dado
+     */
+    public Graphe primMST(Sommet start) {
+        Graphe MST = new Graphe();
+        Map<Sommet, Map<Sommet, Boolean>> revises = new HashMap<>();
+        sommAdj.entrySet().forEach((entry) -> {
+            MST.addVert(entry.getKey());
+            Map<Sommet, Boolean> map = new HashMap<>();
+            for (Map.Entry<Sommet, Integer> ent : entry.getValue().entrySet()) {
+                map.put(ent.getKey(), false);   
+                revises.put(entry.getKey(), map);
+            }
+        });       
+        
+        Set<Sommet> selects = new HashSet<>();
+        selects.add(start);       
+        
+        while(!MST.isConnecte()) {
+            Sommet sel1 = null, sel2 = null;
+            int poids = Integer.MAX_VALUE;
+            boolean added = false;
+            while(!added) {
+                for (Sommet select : selects) {
+                    for (Map.Entry<Sommet, Integer> entry : sommAdj.get(select).entrySet()) {
+                        if (entry.getValue() < poids && !revises.get(select).get(entry.getKey())) {
+                            sel1 = select;
+                            sel2 = entry.getKey();
+                            poids = entry.getValue();
+                        }
+                    }
+                }
+                if (sel1 != null) {
+                    MST.addArete(sel1, sel2, poids);
+                    revises.get(sel1).put(sel2, true);
+                    revises.get(sel2).put(sel1, true);
+                    if (MST.isCyclic()) {
+                        MST.quitArete(sel1, sel2);
+                        poids = Integer.MAX_VALUE;
+                    } else {
+                        selects.add(sel2);
+                        added = true;
+                    }
+                }
+            }
+        }
+        
+        return MST;
+    }
+    
+    public Graphe Dijkstra(Sommet start, Sommet fin) {
+        Graphe camino = new Graphe();
+        Set<Sommet> selectione = new HashSet<>();
+        Map<Sommet, ArrayList> dijkstra = new HashMap<>();
+        ArrayList<Object> temp;
+        for (Sommet sommet : sommAdj.keySet()) {
+            temp = new ArrayList<>();
+            if (sommet.equals(start)) {
+                temp.add(start);
+                temp.add(0);
+            } else {
+                temp.add(null);
+                temp.add(Integer.MAX_VALUE);
+            }
+            dijkstra.put(sommet, temp);
+        }
+        selectione.add(start);
+        while(!selectione.contains(fin)) {
+            int poids = Integer.MAX_VALUE;
+            Sommet voisin = null, ant = null;
+            for (Map.Entry<Sommet, ArrayList> entry : dijkstra.entrySet()) {
+                if (selectione.contains(entry.getKey())) {
+                    for (Map.Entry<Sommet, Integer> arete : sommAdj.get(entry.getKey()).entrySet()) {
+                        if (!selectione.contains(arete.getKey())) {
+                            System.out.println(((int)entry.getValue().get(1) + arete.getValue()));
+                            if (((int)entry.getValue().get(1) + arete.getValue()) < poids) {
+                                poids = (int)entry.getValue().get(1) + arete.getValue();
+                                voisin = arete.getKey();
+                                ant = entry.getKey();
+                            }
+                        }
+                    }
+                }
+            }
+            if (voisin != null) {
+                selectione.add(voisin);
+                ArrayList aux = dijkstra.get(voisin);
+                aux.remove(1);
+                aux.add(poids);
+                aux.remove(0);
+                aux.add(0, ant);
+            }
+        }
+        Sommet actuelle = fin, ant = (Sommet)dijkstra.get(fin).get(0);
+        camino.addVert(fin);
+        System.out.println("Nepe2");
+        while (!actuelle.equals(ant)) {
+            camino.addVert(ant);
+            camino.addArete(ant, actuelle, getPoids(ant, actuelle));
+            actuelle = ant;
+            ant = (Sommet)dijkstra.get(actuelle).get(0);
+        }
+        return camino;
+    }
     
 }

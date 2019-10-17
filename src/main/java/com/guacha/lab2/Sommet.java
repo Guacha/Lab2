@@ -14,12 +14,12 @@ import java.awt.Point;
 public class Sommet {
     String nombre;
     Point pos;
-    TypeSommet type;
+    Ligne ligne;
 
-    public Sommet(String nombre, Point p, TypeSommet t) {
+    public Sommet(String nombre, Point p, Ligne t) {
         this.nombre = nombre;
         this.pos = p;
-        this.type = t;
+        this.ligne = t;
     }
 
     public Sommet(String nombre) {

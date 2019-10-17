@@ -43,7 +43,7 @@ public class Ficheur {
                 for (Map.Entry<Sommet, Map<Sommet, Integer>> entry : g.getSommAdj().entrySet()) {
                     Sommet s = entry.getKey();
                     writer.printf("%s" + ":" + "%s" + ":" + "%d" + ":" + "%d" + "\n", s.nombre, 
-                            s.type, s.pos.x, s.pos.y);
+                            s.ligne, s.pos.x, s.pos.y);
                 }
                 
                 writer.print("CONNECTIONS\n");
@@ -76,7 +76,7 @@ public class Ficheur {
                 while(!line.equals("CONNECTIONS")) {
                     Object[] sommData = line.split(":");
                     Point p = new Point(Integer.parseInt((String)sommData[2]), Integer.parseInt((String)sommData[3]));
-                    Sommet s = new Sommet((String)sommData[0], p, TypeSommet.parseType((String)sommData[1]));
+                    Sommet s = new Sommet((String)sommData[0], p, Ligne.parseType((String)sommData[1]));
                     g.addVert(s);
                     line = reader.readLine();
                 }
@@ -102,5 +102,39 @@ public class Ficheur {
         g.soutGraphe();
         return g;
     }
+
+    Graphe ouvrir(String path) {
+        Graphe g = new Graphe();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String line = reader.readLine();
+            while(!line.equals("CONNECTIONS")) {
+                Object[] sommData = line.split(":");
+                Point p = new Point(Integer.parseInt((String)sommData[2]), Integer.parseInt((String)sommData[3]));
+                Sommet s = new Sommet((String)sommData[0], p, Ligne.parseType((String)sommData[1]));
+                g.addVert(s);
+                line = reader.readLine();
+            }
+
+            line = reader.readLine();
+            while (!line.equals("FIN-ALGORITMO")) {
+                Sommet act = g.getSommet(line);
+                line = reader.readLine();
+                while(!line.equals("FIN")) {
+                    Object[] conData = line.substring(1).split(":");
+                    g.addArete(act, g.getSommet((String)conData[0]), Integer.parseInt((String)conData[1]));
+                    line = reader.readLine();
+                }
+                line = reader.readLine();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ficheur.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Ficheur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return g;
+    }
+    
     
 }

@@ -214,7 +214,7 @@ public class Connections extends javax.swing.JFrame {
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
         //este condicional es una doble verificación para saber si estamos editando o añadiendo (por si acaso :v)
         if (edit == null) { //Si edit es nulo, quiere decir que entramos por el constructor de añadir
-            TypeSommet type = getTypeSommet();
+            Ligne type = getTypeSommet();
             if (!nomField.getText().isEmpty()) {
                 Sommet s = new Sommet(nomField.getText(), p, type);
                 g.addVert(s); //Creamos y añadimos el vértice
@@ -231,7 +231,7 @@ public class Connections extends javax.swing.JFrame {
                 this.dispose();
             }
         } else { //Si entramos por el otro constructor (Constructor de Edición de arista)
-            TypeSommet type = getTypeSommet();
+            Ligne type = getTypeSommet();
             if (!nomField.getText().isEmpty()) {
                 for (JSpinner con : cons) { //Este ciclo recorre todos los Jspinners y revisa cuales cambiaron
                     Sommet rel = g.getSommet(con.getName());
@@ -250,7 +250,7 @@ public class Connections extends javax.swing.JFrame {
                     }
                 }
                 edit.nombre = nomField.getText();
-                edit.type = type;
+                edit.ligne = type;
             }
             m.dessinerGraphe();
             m.showInfo(edit);
@@ -342,15 +342,15 @@ public class Connections extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioMulti;
     // End of variables declaration//GEN-END:variables
 
-    private TypeSommet getTypeSommet() {
+    private Ligne getTypeSommet() {
         if (radioBus.isSelected()) {
-            return TypeSommet.STATION_BUS;
+            return Ligne.LIGNE_VERTE;
         } else if (radioMetro.isSelected()) {
-            return TypeSommet.STATION_METRO;
+            return Ligne.LIGNE_ORANGE;
         } else if (radioBusNuit.isSelected()) {
-            return TypeSommet.STATION_BUSDENUIT;
+            return Ligne.LIGNE_BLEUE;
         } else {
-            return TypeSommet.STATION_MULTI;
+            return Ligne.LIGNE_JAUNE;
         }
     }
     
