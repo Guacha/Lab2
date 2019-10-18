@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
  */
 public final class Mapa extends javax.swing.JFrame {
     
-    private final Graphics g;
+    private Graphics g;
     private Graphe graphe;
     private Sommet sel;
     private BufferedImage bg;
@@ -28,6 +28,7 @@ public final class Mapa extends javax.swing.JFrame {
     public Mapa() {
         initComponents();
         g = drawPanel.getGraphics();
+        drawPanel.setSize(656, 781);
         Ficheur f = new Ficheur();
         graphe = new Graphe();
         try {
@@ -47,27 +48,32 @@ public final class Mapa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        output = new javax.swing.JTextArea();
-        editArete = new javax.swing.JButton();
+        settingFrame = new javax.swing.JFrame();
+        jLabel2 = new javax.swing.JLabel();
+        showPhotoCheck = new javax.swing.JCheckBox();
         sauvegarder = new javax.swing.JButton();
         ouvrir = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        editArete = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         enruter = new javax.swing.JButton();
-        tog = new javax.swing.JToggleButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        output = new javax.swing.JTextArea();
         drawPanel = new javax.swing.JPanel();
+        fondoLabel = new javax.swing.JLabel();
+        settingButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 72)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Configuración");
 
-        output.setEditable(false);
-        output.setColumns(20);
-        output.setRows(5);
-        jScrollPane1.setViewportView(output);
-
-        editArete.setText("Editar Estación");
-        editArete.setEnabled(false);
-        editArete.addActionListener(new java.awt.event.ActionListener() {
+        showPhotoCheck.setSelected(true);
+        showPhotoCheck.setText("Mostrar Imagen frontal (Desactivar solo si se desea ver la clase Graphics)");
+        showPhotoCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editAreteActionPerformed(evt);
+                showPhotoCheckActionPerformed(evt);
             }
         });
 
@@ -85,6 +91,81 @@ public final class Mapa extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Opciones de cargado de mapa (Usar sólo si se tiene un archivo .gfm válido para cargar)");
+
+        editArete.setText("Editar Estación");
+        editArete.setEnabled(false);
+        editArete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editAreteActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Opciones de la estación seleccionada (Solo válido si se tiene una estación seleccionada actualmente)");
+
+        javax.swing.GroupLayout settingFrameLayout = new javax.swing.GroupLayout(settingFrame.getContentPane());
+        settingFrame.getContentPane().setLayout(settingFrameLayout);
+        settingFrameLayout.setHorizontalGroup(
+            settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingFrameLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(sauvegarder)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ouvrir)
+                .addGap(177, 177, 177))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingFrameLayout.createSequentialGroup()
+                        .addComponent(showPhotoCheck)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
+                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1))
+                .addContainerGap())
+            .addGroup(settingFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editArete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        settingFrameLayout.setVerticalGroup(
+            settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(showPhotoCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sauvegarder)
+                    .addComponent(ouvrir))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editArete)
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(527, 996));
+        setSize(new java.awt.Dimension(688, 1773));
+
         enruter.setText("Obtener Ruta");
         enruter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,31 +173,32 @@ public final class Mapa extends javax.swing.JFrame {
             }
         });
 
-        tog.setText("jToggleButton1");
-        tog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togActionPerformed(evt);
-            }
-        });
+        output.setEditable(false);
+        output.setColumns(20);
+        output.setRows(5);
+        jScrollPane1.setViewportView(output);
 
         drawPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        drawPanel.setMinimumSize(new java.awt.Dimension(676, 818));
+        drawPanel.setMaximumSize(new java.awt.Dimension(656, 781));
+        drawPanel.setMinimumSize(new java.awt.Dimension(656, 781));
+        drawPanel.setPreferredSize(new java.awt.Dimension(656, 781));
         drawPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 drawPanelMouseClicked(evt);
             }
         });
+        drawPanel.setLayout(null);
 
-        javax.swing.GroupLayout drawPanelLayout = new javax.swing.GroupLayout(drawPanel);
-        drawPanel.setLayout(drawPanelLayout);
-        drawPanelLayout.setHorizontalGroup(
-            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 672, Short.MAX_VALUE)
-        );
-        drawPanelLayout.setVerticalGroup(
-            drawPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 814, Short.MAX_VALUE)
-        );
+        fondoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/metro.jpg"))); // NOI18N
+        drawPanel.add(fondoLabel);
+        fondoLabel.setBounds(0, -10, 660, 820);
+
+        settingButton.setText("Configuración");
+        settingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,48 +206,27 @@ public final class Mapa extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(settingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(editArete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(sauvegarder)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                                .addComponent(ouvrir))
-                            .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(tog)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(tog)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
-                        .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addContainerGap()
+                .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(editArete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sauvegarder)
-                            .addComponent(ouvrir))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(enruter))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(settingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,6 +276,7 @@ public final class Mapa extends javax.swing.JFrame {
         this.graphe = f.ouvrir(); //Carga el grafo de un archivo y lo dibuja
         dessinerGraphe();
     }//GEN-LAST:event_ouvrirActionPerformed
+    
     /**
      * Abre la ventana de conexiones con el constructor para Editar vértices 
      */
@@ -223,6 +285,7 @@ public final class Mapa extends javax.swing.JFrame {
             new Connections(graphe, this, sel).setVisible(true);
         }
     }//GEN-LAST:event_editAreteActionPerformed
+    
     /**
      * Función que se llama al presionar el botón para mostrar las rutas <p>
      * Genera un MST y lo dibuja
@@ -231,9 +294,19 @@ public final class Mapa extends javax.swing.JFrame {
         dessinerGraphe(graphe.kruskalMST());
     }//GEN-LAST:event_enruterActionPerformed
 
-    private void togActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togActionPerformed
- 
-    }//GEN-LAST:event_togActionPerformed
+    private void settingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingButtonActionPerformed
+        settingFrame.setLocationRelativeTo(null);
+        settingFrame.pack();
+        settingFrame.setVisible(true);
+    }//GEN-LAST:event_settingButtonActionPerformed
+
+    private void showPhotoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPhotoCheckActionPerformed
+        if (showPhotoCheck.isSelected()) {
+            fondoLabel.setVisible(true);
+        } else {
+            fondoLabel.setVisible(false);
+        }
+    }//GEN-LAST:event_showPhotoCheckActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,7 +337,8 @@ public final class Mapa extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Mapa().setVisible(true);
+            Mapa m = new Mapa();
+            m.setVisible(true);
         });
     }
 
@@ -274,7 +348,9 @@ public final class Mapa extends javax.swing.JFrame {
      */
     public void dessinerGraphe() {
         clearPane(); //Limpiar el panel
-        drawBG();
+        if (showPhotoCheck.isSelected()) {
+            drawBG();
+        }
         graphe.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
             int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
             x1 = entry.getKey().pos.x;                      //obtener [X,Y] del nodo por graficar
@@ -306,7 +382,9 @@ public final class Mapa extends javax.swing.JFrame {
         //Todo es exactamente igual a la función anterior, solo que en la 
         //selección del color, si es el nodo marcado, será verde.
         clearPane();
-        drawBG();
+        if (showPhotoCheck.isSelected()) {
+            drawBG();
+        }
         graphe.getSommAdj().entrySet().forEach((entry) -> {
             int x1, y1, x2, y2, xMed, yMed;
             x1 = entry.getKey().pos.x;
@@ -326,7 +404,7 @@ public final class Mapa extends javax.swing.JFrame {
                 g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
             }
             if (entry.getKey().equals(v)) {
-                g.setColor(Color.green);
+                g.setColor(Color.red);
             } else {
                 g.setColor(getColor(entry.getKey()));
             }
@@ -336,6 +414,9 @@ public final class Mapa extends javax.swing.JFrame {
     
     public void dessinerGraphe(Graphe graph) {
         dessinerGraphe();
+        if (showPhotoCheck.isSelected()) {
+            drawBG();
+        }
         graph.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
             int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
             x1 = entry.getKey().pos.x;                      //obtener [X,Y] del nodo por graficar
@@ -374,7 +455,7 @@ public final class Mapa extends javax.swing.JFrame {
     }
     
     /**
-     * Retorna un color dependiendo del tipo de estación que teng aun vértice
+     * Retorna un color dependiendo del tipo de estación que tenga un vértice
      * @param s El vértice para el que se quiere hallar el color
      * @return el color con el que dse va a dibujar el vértice
      */
@@ -388,6 +469,8 @@ public final class Mapa extends javax.swing.JFrame {
                 return Color.blue;
             case LIGNE_JAUNE:
                 return Color.yellow;
+            case LIGNE_MULTI:
+                return Color.MAGENTA;
             default:
                 return Color.green;
         }
@@ -422,11 +505,19 @@ public final class Mapa extends javax.swing.JFrame {
     private javax.swing.JPanel drawPanel;
     private javax.swing.JButton editArete;
     private javax.swing.JButton enruter;
+    private javax.swing.JLabel fondoLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea output;
     private javax.swing.JButton ouvrir;
     private javax.swing.JButton sauvegarder;
-    private javax.swing.JToggleButton tog;
+    private javax.swing.JButton settingButton;
+    private javax.swing.JFrame settingFrame;
+    private javax.swing.JCheckBox showPhotoCheck;
     // End of variables declaration//GEN-END:variables
     
     

@@ -13,7 +13,8 @@ public enum Ligne {
     LIGNE_VERTE,
     LIGNE_ORANGE,
     LIGNE_BLEUE,
-    LIGNE_JAUNE;
+    LIGNE_JAUNE,
+    LIGNE_MULTI;
     
     
     public static Ligne parseType(String s) {
@@ -26,6 +27,8 @@ public enum Ligne {
                 return LIGNE_BLEUE;
             case "LIGNE_JAUNE":
                 return LIGNE_JAUNE;
+            case "LIGNE_MULTI":
+                return LIGNE_MULTI;
             default:
                 return LIGNE_VERTE;
         }

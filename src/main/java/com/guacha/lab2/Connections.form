@@ -34,7 +34,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="holdPane" max="32767" attributes="0"/>
+                      <Component id="holdPane" pref="275" max="32767" attributes="0"/>
                   </Group>
                   <Component id="elimSomm" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -50,7 +50,7 @@
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Component id="holdPane" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="finishButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="elimSomm" min="-2" max="-2" attributes="0"/>
@@ -86,9 +86,10 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioBus" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioMetro" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="radioBusNuit" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radioVerte" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radioOrange" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radioBleue" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radioJaune" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="radioMulti" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="56" max="32767" attributes="0"/>
@@ -108,11 +109,13 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="radioBus" min="-2" max="-2" attributes="0"/>
+                  <Component id="radioVerte" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="radioMetro" min="-2" max="-2" attributes="0"/>
+                  <Component id="radioOrange" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="radioBusNuit" min="-2" max="-2" attributes="0"/>
+                  <Component id="radioBleue" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="radioJaune" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="radioMulti" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -130,44 +133,55 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tipo de Estaci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Linea de la estaci&#xf3;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioBus">
+        <Component class="javax.swing.JRadioButton" name="radioVerte">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="Bus"/>
+            <Property name="text" type="java.lang.String" value="Verde (Verte)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioMetro">
+        <Component class="javax.swing.JRadioButton" name="radioOrange">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Metro"/>
+            <Property name="text" type="java.lang.String" value="Naranja (Orange)"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioOrangeActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioBusNuit">
+        <Component class="javax.swing.JRadioButton" name="radioBleue">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Bus Nocturno"/>
+            <Property name="text" type="java.lang.String" value="Azul (Bleue)"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="radioJaune">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Amarilla (Jaune)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioJauneActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="radioMulti">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Estaci&#xf3;n Multiprop&#xf3;sito"/>
+            <Property name="text" type="java.lang.String" value="Multi-Linea"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioMultiActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -185,7 +199,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="236" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="259" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

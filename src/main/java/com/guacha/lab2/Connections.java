@@ -76,9 +76,10 @@ public class Connections extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         nomField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        radioBus = new javax.swing.JRadioButton();
-        radioMetro = new javax.swing.JRadioButton();
-        radioBusNuit = new javax.swing.JRadioButton();
+        radioVerte = new javax.swing.JRadioButton();
+        radioOrange = new javax.swing.JRadioButton();
+        radioBleue = new javax.swing.JRadioButton();
+        radioJaune = new javax.swing.JRadioButton();
         radioMulti = new javax.swing.JRadioButton();
         holdPane = new javax.swing.JScrollPane();
         chkPanel = new javax.swing.JPanel();
@@ -97,25 +98,33 @@ public class Connections extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre del Vértice");
 
-        jLabel2.setText("Tipo de Estación");
+        jLabel2.setText("Linea de la estación");
 
-        buttonGroup1.add(radioBus);
-        radioBus.setSelected(true);
-        radioBus.setText("Bus");
+        buttonGroup1.add(radioVerte);
+        radioVerte.setSelected(true);
+        radioVerte.setText("Verde (Verte)");
 
-        buttonGroup1.add(radioMetro);
-        radioMetro.setText("Metro");
-
-        buttonGroup1.add(radioBusNuit);
-        radioBusNuit.setText("Bus Nocturno");
-
-        buttonGroup1.add(radioMulti);
-        radioMulti.setText("Estación Multipropósito");
-        radioMulti.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(radioOrange);
+        radioOrange.setText("Naranja (Orange)");
+        radioOrange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioMultiActionPerformed(evt);
+                radioOrangeActionPerformed(evt);
             }
         });
+
+        buttonGroup1.add(radioBleue);
+        radioBleue.setText("Azul (Bleue)");
+
+        buttonGroup1.add(radioJaune);
+        radioJaune.setText("Amarilla (Jaune)");
+        radioJaune.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioJauneActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(radioMulti);
+        radioMulti.setText("Multi-Linea");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,9 +138,10 @@ public class Connections extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(radioBus)
-                            .addComponent(radioMetro)
-                            .addComponent(radioBusNuit)
+                            .addComponent(radioVerte)
+                            .addComponent(radioOrange)
+                            .addComponent(radioBleue)
+                            .addComponent(radioJaune)
                             .addComponent(radioMulti))
                         .addGap(0, 56, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -146,11 +156,13 @@ public class Connections extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioBus)
+                .addComponent(radioVerte)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioMetro)
+                .addComponent(radioOrange)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioBusNuit)
+                .addComponent(radioBleue)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioJaune)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioMulti)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -162,7 +174,7 @@ public class Connections extends javax.swing.JFrame {
         chkPanel.setLayout(chkPanelLayout);
         chkPanelLayout.setHorizontalGroup(
             chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 236, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
         chkPanelLayout.setVerticalGroup(
             chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +201,7 @@ public class Connections extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(holdPane))
+                        .addComponent(holdPane, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
                     .addComponent(elimSomm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -200,7 +212,7 @@ public class Connections extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(holdPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(finishButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(elimSomm)
@@ -218,16 +230,15 @@ public class Connections extends javax.swing.JFrame {
             if (!nomField.getText().isEmpty()) {
                 Sommet s = new Sommet(nomField.getText(), p, type);
                 g.addVert(s); //Creamos y añadimos el vértice
-
+                m.getOutput().setText("Vértice añadido!\n");
                 if (isConnected()) { //Verificamos si el vertice no está aislado
                     cons.stream().filter((con) -> ((int)con.getValue() > 0)).forEachOrdered((con) -> { //Expresión lambda que retorna cada JSpinner cuyo número es mayor a 0
                         Sommet connecte = g.getSommet(con.getName()); 
-                        g.addArete(s, connecte, (int)con.getValue()); //Añade arista por cada JSpinner
+                        
+                        
                     });
                 }
                 m.dessinerGraphe();
-                m.showInfo(s);
-                System.out.println(g.isCyclic());
                 this.dispose();
             }
         } else { //Si entramos por el otro constructor (Constructor de Edición de arista)
@@ -254,14 +265,13 @@ public class Connections extends javax.swing.JFrame {
             }
             m.dessinerGraphe();
             m.showInfo(edit);
-            System.out.println(g.isCyclic());
             this.dispose();
         }
     }//GEN-LAST:event_finishButtonActionPerformed
 
-    private void radioMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioMultiActionPerformed
+    private void radioJauneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioJauneActionPerformed
 
-    }//GEN-LAST:event_radioMultiActionPerformed
+    }//GEN-LAST:event_radioJauneActionPerformed
 
     private void elimSommActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elimSommActionPerformed
         //este condicional es una doble verificación para saber si estamos editando o añadiendo (por si acaso :v)
@@ -277,7 +287,12 @@ public class Connections extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_elimSommActionPerformed
-     /**
+
+    private void radioOrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioOrangeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioOrangeActionPerformed
+    
+    /**
       * Función para inicializar la ventana cuando se desea añadir un vértice <p>
       * Se añaden JSpinners, uno por cada vértice, para representar las conexiones con peso entre cada par de vértices
       */
@@ -317,6 +332,7 @@ public class Connections extends javax.swing.JFrame {
                 SpinnerNumberModel model = new SpinnerNumberModel(pesoAct, 0, 10000, 1);
                 JSpinner c = new JSpinner(model);
                 c.setName(entry.getKey().nombre);
+                c.setEditor(new JSpinner.DefaultEditor(c));
                 cons.add(c);
                 chkPanel.add(c);
             }                
@@ -336,21 +352,24 @@ public class Connections extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField nomField;
-    private javax.swing.JRadioButton radioBus;
-    private javax.swing.JRadioButton radioBusNuit;
-    private javax.swing.JRadioButton radioMetro;
+    private javax.swing.JRadioButton radioBleue;
+    private javax.swing.JRadioButton radioJaune;
     private javax.swing.JRadioButton radioMulti;
+    private javax.swing.JRadioButton radioOrange;
+    private javax.swing.JRadioButton radioVerte;
     // End of variables declaration//GEN-END:variables
 
     private Ligne getTypeSommet() {
-        if (radioBus.isSelected()) {
+        if (radioVerte.isSelected()) {
             return Ligne.LIGNE_VERTE;
-        } else if (radioMetro.isSelected()) {
+        } else if (radioOrange.isSelected()) {
             return Ligne.LIGNE_ORANGE;
-        } else if (radioBusNuit.isSelected()) {
+        } else if (radioBleue.isSelected()) {
             return Ligne.LIGNE_BLEUE;
-        } else {
+        } else if(radioJaune.isSelected()){
             return Ligne.LIGNE_JAUNE;
+        } else {
+            return Ligne.LIGNE_MULTI;
         }
     }
     
