@@ -293,6 +293,15 @@ public class Graphe {
         return DFSUtil(fst, m, liste);
     }
     
+    private LinkedList<Sommet> DFS(Sommet s) {
+        Map<Sommet, Boolean> m = new HashMap<>();
+        sommAdj.keySet().forEach((sommet) -> {
+            m.put(sommet, Boolean.FALSE);
+        });
+        LinkedList<Sommet> liste = new LinkedList<>();
+        return DFSUtil(s, m, liste);
+    }
+    
     /**
      * Función de utulidad para el DFS, recorre el grafo recursivamente y va añadiendo
      * vertices a una lista. <p>
@@ -464,7 +473,6 @@ public class Graphe {
                 if (selectione.contains(entry.getKey())) {
                     for (Map.Entry<Sommet, Integer> arete : sommAdj.get(entry.getKey()).entrySet()) {
                         if (!selectione.contains(arete.getKey())) {
-                            System.out.println(((int)entry.getValue().get(1) + arete.getValue()));
                             if (((int)entry.getValue().get(1) + arete.getValue()) < poids) {
                                 poids = (int)entry.getValue().get(1) + arete.getValue();
                                 voisin = arete.getKey();
@@ -485,7 +493,6 @@ public class Graphe {
         }
         Sommet actuelle = fin, ant = (Sommet)dijkstra.get(fin).get(0);
         camino.addVert(fin);
-        System.out.println("Nepe2");
         while (!actuelle.equals(ant)) {
             camino.addVert(ant);
             camino.addArete(ant, actuelle, getPoids(ant, actuelle));
@@ -493,6 +500,10 @@ public class Graphe {
             ant = (Sommet)dijkstra.get(actuelle).get(0);
         }
         return camino;
+    }
+    
+    public LinkedList<Sommet> interpretDijkstra(Sommet start) {
+        return DFS(start);
     }
     
 }

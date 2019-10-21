@@ -6,7 +6,6 @@
 package com.guacha.lab2;
 
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.BoxLayout;
@@ -288,7 +287,7 @@ public class Connections extends javax.swing.JFrame {
             }
             m.dessinerGraphe();
             m.getOutput().setText("Vértice " + edit.nombre + " eliminado!"); //Se escribe en el output de la ventana principal
-            System.out.println(g.isCyclic());
+
             this.dispose();
         }
     }//GEN-LAST:event_elimSommActionPerformed

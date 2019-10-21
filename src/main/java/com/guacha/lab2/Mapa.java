@@ -9,6 +9,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.LinkedList;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -452,7 +453,7 @@ public final class Mapa extends javax.swing.JFrame {
         setupButtons();
     }//GEN-LAST:event_drawPanelMouseClicked
     
-   
+    
    
    
     /**
@@ -460,13 +461,15 @@ public final class Mapa extends javax.swing.JFrame {
      * Genera un MST y lo dibuja
      */
     private void enruterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enruterActionPerformed
-        DefaultComboBoxModel<String> model;
+        DefaultComboBoxModel<String> model, model2;
         model = new DefaultComboBoxModel<>();
+        model2 = new DefaultComboBoxModel<>();
         for (Sommet sommet : graphe.getSommAdj().keySet()) {
             model.addElement(sommet.nombre);
+            model2.addElement(sommet.nombre);
         }
         inicioComboBox.setModel(model);
-        destinoComboBox.setModel(model);
+        destinoComboBox.setModel(model2);
         routeFrame.setVisible(true);
     }//GEN-LAST:event_enruterActionPerformed
     
@@ -535,7 +538,7 @@ public final class Mapa extends javax.swing.JFrame {
     }//GEN-LAST:event_settingFrameWindowClosed
 
     private void defaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonActionPerformed
-        this.graphe = new Ficheur().ouvrir(getClass().getResource("/STMFINAL.gfm").getPath());
+        this.graphe = new Ficheur().ouvrir(getClass().getResource("/stmStandard.gfm").getPath());
         dessinerGraphe();
         settingFrame.setVisible(false);
     }//GEN-LAST:event_defaultButtonActionPerformed
@@ -549,7 +552,9 @@ public final class Mapa extends javax.swing.JFrame {
         } else {
             Sommet start = graphe.getSommet((String)inicioComboBox.getSelectedItem());
             Sommet dest = graphe.getSommet((String)destinoComboBox.getSelectedItem());
-            dessinerGraphe(graphe.Dijkstra(start, dest));
+            Graphe dijkstra = graphe.Dijkstra(start, dest);
+            dessinerGraphe(dijkstra);
+            output.setText(interpretDijkstra(dijkstra, start));
         }
         routeFrame.setVisible(false);
     }//GEN-LAST:event_recorridoButtonActionPerformed
@@ -607,6 +612,7 @@ public final class Mapa extends javax.swing.JFrame {
         });
         
     }
+    
     /**
      * Función que Función que se encarga de dibujar el grafo en pantalla sobre el panel de dibujo <p>
      * Esta recibe el parámetro V, que es un nodo "marcado", y a a la hora de dibujarlo, tendrá distinto color
@@ -654,6 +660,11 @@ public final class Mapa extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * Método que dibuja un gráfo nuevo sobre un grafo existente, por ejemplo, 
+     * MST o un grafo de caminos
+     * @param graph El grafo que se va a superponer
+     */
     public void dessinerGraphe(Graphe graph) {
         if (showPhotoCheck.isSelected()) {
             drawBG();
@@ -744,6 +755,39 @@ public final class Mapa extends javax.swing.JFrame {
      */
     public JTextArea getOutput() {
         return output;
+    }
+    
+    private String interpretDijkstra(Graphe dijkstra, Sommet start) {
+        LinkedList<Sommet> orden = dijkstra.interpretDijkstra(start);
+        StringBuilder sb = new StringBuilder();
+        Sommet act = null;
+        sb.append("Subirse en la estación ").append(orden.get(0).nombre).append("\n");
+        for (int i = 0; i < orden.size()-1; i++) {
+            act = orden.get(i);
+            if (i > 0 && i < orden.size()) {
+                if (act.ligne == Ligne.LIGNE_MULTI) {
+                    Sommet ant = orden.get(i-1);
+                    Sommet next = orden.get(i+1);
+                    if (ant.ligne != next.ligne) {
+                        sb.append("En la estación ").append(act.nombre).append(" cambiar a la línea ").append(Ligne.parseLigne(orden.get(i+1).ligne)).append("\n");
+                        int j = i;
+                        Sommet fin = next;
+                        while(j < orden.size()-1 && fin.ligne != Ligne.LIGNE_MULTI){
+                            fin = orden.get(++j);
+                        }
+                        if (fin.ligne == Ligne.LIGNE_MULTI) {
+                            ant = orden.get(j-1); next = orden.get(j+1);
+                            if (ant.ligne != next.ligne) {
+                                sb.append("Viajar en la línea ").append(Ligne.parseLigne(ant.ligne)).append(" hasta la estación ").append(fin.nombre).append("\n");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        act = orden.get(orden.size()-1);
+        sb.append("Bajarse en la estación ").append(act.nombre);        
+        return sb.toString();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

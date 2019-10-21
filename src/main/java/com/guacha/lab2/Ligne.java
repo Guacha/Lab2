@@ -33,4 +33,17 @@ public enum Ligne {
                 return LIGNE_VERTE;
         }
     }
+    
+    public static String parseLigne(Ligne l) {
+        switch (l) {
+            case LIGNE_VERTE:
+                return "Verde";
+            case LIGNE_ORANGE:
+                return "Naranja";
+            case LIGNE_BLEUE:
+                return "Azul";
+            default:
+                return "Amarilla";
+        }   
+    }
 }
