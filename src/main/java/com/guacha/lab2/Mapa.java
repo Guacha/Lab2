@@ -241,6 +241,12 @@ public final class Mapa extends javax.swing.JFrame {
         );
 
         routeFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        routeFrame.setMinimumSize(new java.awt.Dimension(453, 305));
+        routeFrame.setResizable(false);
+
+        inicioComboBox.setEnabled(false);
+
+        destinoComboBox.setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -251,12 +257,27 @@ public final class Mapa extends javax.swing.JFrame {
         buttonGroup1.add(kruskalRadio);
         kruskalRadio.setSelected(true);
         kruskalRadio.setText("Recorrer todo el metro");
+        kruskalRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kruskalRadioActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(primRadio);
         primRadio.setText("Recorrer todo el metro (Desde un punto)");
+        primRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                primRadioActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(dijkstraRadio);
         dijkstraRadio.setText("Llegar de una estación a otra");
+        dijkstraRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dijkstraRadioActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Punto de inicio");
 
@@ -276,7 +297,6 @@ public final class Mapa extends javax.swing.JFrame {
             .addGroup(routeFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(routeFrameLayout.createSequentialGroup()
                         .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -284,20 +304,20 @@ public final class Mapa extends javax.swing.JFrame {
                             .addComponent(primRadio)
                             .addComponent(dijkstraRadio))
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, routeFrameLayout.createSequentialGroup()
                         .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(routeFrameLayout.createSequentialGroup()
-                                .addComponent(inicioComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(inicioComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(routeFrameLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addGap(141, 141, 141)))
+                                .addGap(0, 131, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(destinoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(destinoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))))
                 .addContainerGap())
             .addGroup(routeFrameLayout.createSequentialGroup()
-                .addGap(163, 163, 163)
+                .addGap(165, 165, 165)
                 .addComponent(recorridoButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -322,9 +342,9 @@ public final class Mapa extends javax.swing.JFrame {
                 .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inicioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(destinoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(recorridoButton)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -514,6 +534,12 @@ public final class Mapa extends javax.swing.JFrame {
 
     }//GEN-LAST:event_settingFrameWindowClosed
 
+    private void defaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonActionPerformed
+        this.graphe = new Ficheur().ouvrir(getClass().getResource("/STMFINAL.gfm").getPath());
+        dessinerGraphe();
+        settingFrame.setVisible(false);
+    }//GEN-LAST:event_defaultButtonActionPerformed
+
     private void recorridoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recorridoButtonActionPerformed
         if (kruskalRadio.isSelected()) {
             dessinerGraphe(graphe.kruskalMST());
@@ -528,11 +554,20 @@ public final class Mapa extends javax.swing.JFrame {
         routeFrame.setVisible(false);
     }//GEN-LAST:event_recorridoButtonActionPerformed
 
-    private void defaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonActionPerformed
-        this.graphe = new Ficheur().ouvrir(getClass().getResource("/STMFINAL.gfm").getPath());
-        dessinerGraphe();
-        settingFrame.setVisible(false);
-    }//GEN-LAST:event_defaultButtonActionPerformed
+    private void dijkstraRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dijkstraRadioActionPerformed
+        inicioComboBox.setEnabled(true);
+        destinoComboBox.setEnabled(true);
+    }//GEN-LAST:event_dijkstraRadioActionPerformed
+
+    private void primRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primRadioActionPerformed
+        inicioComboBox.setEnabled(true);
+        destinoComboBox.setEnabled(false);
+    }//GEN-LAST:event_primRadioActionPerformed
+
+    private void kruskalRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kruskalRadioActionPerformed
+        inicioComboBox.setEnabled(false);
+        destinoComboBox.setEnabled(false);
+    }//GEN-LAST:event_kruskalRadioActionPerformed
    
     /**
      * Función que se encarga de dibujar el grafo en pantalla sobre el panel de dibujo
