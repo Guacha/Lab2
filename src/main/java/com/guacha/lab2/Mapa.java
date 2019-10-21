@@ -473,6 +473,10 @@ public final class Mapa extends javax.swing.JFrame {
         routeFrame.setVisible(true);
     }//GEN-LAST:event_enruterActionPerformed
     
+    /**
+     * Función para el botón de configuraciones, abre el contexto de configuraciones 
+     * de esta instancia.
+     */
     private void settingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingButtonActionPerformed
         settingFrame.setLocationRelativeTo(null);
         settingFrame.pack();
@@ -498,7 +502,11 @@ public final class Mapa extends javax.swing.JFrame {
     private void adicionCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionCheckActionPerformed
 
     }//GEN-LAST:event_adicionCheckActionPerformed
-
+    
+    /**
+     * Función del botón Edición de arista, abre el contexto de conexiones para 
+     * el vértice seleccionado
+     */
     private void editAreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAreteActionPerformed
         Connections c = new Connections(graphe, this, sel);
         this.setEnabled(false);
@@ -543,6 +551,10 @@ public final class Mapa extends javax.swing.JFrame {
         settingFrame.setVisible(false);
     }//GEN-LAST:event_defaultButtonActionPerformed
 
+    /**
+     * Función del botón de recorrido en el contexto de obtener recorrido, Una vez 
+     * seleccionado, toma todos los parámetros del panel y los usa para decidir que recorrido se usará
+     */
     private void recorridoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recorridoButtonActionPerformed
         if (kruskalRadio.isSelected()) {
             dessinerGraphe(graphe.kruskalMST());
@@ -680,7 +692,7 @@ public final class Mapa extends javax.swing.JFrame {
                 y2 = sommet.pos.y;
                 int xMed = (x1+x2)/2;                                           //Se obtiene el punto medio [X,Y] en la arista a dibujar para poner el peso de la misma
                 int yMed = (y1+y2)/2;
-                g.setColor(Color.RED);
+                g.setColor(Color.green);
                 g.drawLine(x1, y1, x2, y2);
                 g.drawLine(x1+1, y1, x2+1, y2);
                 g.drawLine(x1-1, y1, x2-1, y2);
@@ -718,13 +730,13 @@ public final class Mapa extends javax.swing.JFrame {
     private Color getColor(Sommet s) {
         switch(s.ligne) {
             case LIGNE_VERTE:
-                return Color.GREEN;
+                return Color.green.darker();
             case LIGNE_ORANGE:
-                return Color.orange;
+                return new Color(255, 111, 0);
             case LIGNE_BLEUE:
-                return Color.blue;
+                return new Color(0, 85, 255);
             case LIGNE_JAUNE:
-                return Color.yellow;
+                return Color.orange;
             case LIGNE_MULTI:
                 return Color.MAGENTA;
             default:
