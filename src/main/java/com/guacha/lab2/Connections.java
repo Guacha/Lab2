@@ -6,6 +6,7 @@
 package com.guacha.lab2;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.BoxLayout;
@@ -86,6 +87,11 @@ public class Connections extends javax.swing.JFrame {
         elimSomm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         finishButton.setText("Crear Vértice");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,11 +112,6 @@ public class Connections extends javax.swing.JFrame {
 
         buttonGroup1.add(radioOrange);
         radioOrange.setText("Naranja (Orange)");
-        radioOrange.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioOrangeActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(radioBleue);
         radioBleue.setText("Azul (Bleue)");
@@ -233,9 +234,12 @@ public class Connections extends javax.swing.JFrame {
                 m.getOutput().setText("Vértice añadido!\n");
                 if (isConnected()) { //Verificamos si el vertice no está aislado
                     cons.stream().filter((con) -> ((int)con.getValue() > 0)).forEachOrdered((con) -> { //Expresión lambda que retorna cada JSpinner cuyo número es mayor a 0
-                        Sommet connecte = g.getSommet(con.getName()); 
-                        
-                        
+                        Sommet connecte = g.getSommet(con.getName());
+                        if (connecte.ligne ==  s.ligne || s.ligne ==  Ligne.LIGNE_MULTI || connecte.ligne == Ligne.LIGNE_MULTI) {
+                            g.addArete(s, connecte, (int) con.getValue());
+                        } else {
+                            m.getOutput().append("No se pudo agregar la estación " + connecte.nombre + " por que está en otra línea\n");
+                        }
                     });
                 }
                 m.dessinerGraphe();
@@ -265,6 +269,7 @@ public class Connections extends javax.swing.JFrame {
             }
             m.dessinerGraphe();
             m.showInfo(edit);
+            m.setEnabled(true);
             this.dispose();
         }
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -288,9 +293,9 @@ public class Connections extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_elimSommActionPerformed
 
-    private void radioOrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioOrangeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioOrangeActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        m.setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
     
     /**
       * Función para inicializar la ventana cuando se desea añadir un vértice <p>

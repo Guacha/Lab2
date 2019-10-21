@@ -5,13 +5,14 @@
  */
 package com.guacha.lab2;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Map;
-import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
@@ -20,23 +21,21 @@ import javax.swing.JTextArea;
  */
 public final class Mapa extends javax.swing.JFrame {
     
-    private Graphics g;
+    private final Graphics2D g;
     private Graphe graphe;
     private Sommet sel;
-    private BufferedImage bg;
+    private final ImageIcon fondo;
     
     public Mapa() {
         initComponents();
-        g = drawPanel.getGraphics();
+        g = (Graphics2D) drawPanel.getGraphics();
         drawPanel.setSize(656, 781);
         Ficheur f = new Ficheur();
         graphe = new Graphe();
-        try {
-            bg = ImageIO.read(getClass().getResource("/metro.jpg"));
-        } catch (IOException ex) {
-            bg = null;
-        }
-        drawBG();
+        fondo = new ImageIcon(getClass().getResource("/mapaLimpio.png"));
+        g.drawImage(fondo.getImage(),0, 0, null);
+        g.setStroke(new BasicStroke(3));
+        dessinerGraphe();
     }
 
     /**
@@ -50,51 +49,138 @@ public final class Mapa extends javax.swing.JFrame {
 
         settingFrame = new javax.swing.JFrame();
         jLabel2 = new javax.swing.JLabel();
+        graphOptionPane = new javax.swing.JPanel();
         showPhotoCheck = new javax.swing.JCheckBox();
-        sauvegarder = new javax.swing.JButton();
-        ouvrir = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
+        showPesoCheck = new javax.swing.JCheckBox();
+        fileSettingPane = new javax.swing.JPanel();
+        CargarButton = new javax.swing.JButton();
+        guardarButton = new javax.swing.JButton();
+        newMapaButton = new javax.swing.JButton();
+        defaultButton = new javax.swing.JButton();
+        editSettingsPane = new javax.swing.JPanel();
         editArete = new javax.swing.JButton();
+        adicionCheck = new javax.swing.JCheckBox();
+        routeFrame = new javax.swing.JFrame();
+        inicioComboBox = new javax.swing.JComboBox<>();
+        destinoComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        kruskalRadio = new javax.swing.JRadioButton();
+        primRadio = new javax.swing.JRadioButton();
+        dijkstraRadio = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        recorridoButton = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        drawPanel = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         enruter = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
-        drawPanel = new javax.swing.JPanel();
-        fondoLabel = new javax.swing.JLabel();
         settingButton = new javax.swing.JButton();
+
+        settingFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                settingFrameWindowClosed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 72)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Configuración");
 
+        graphOptionPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Configuraciones Gráficas"));
+        graphOptionPane.setToolTipText("");
+
         showPhotoCheck.setSelected(true);
-        showPhotoCheck.setText("Mostrar Imagen frontal (Desactivar solo si se desea ver la clase Graphics)");
+        showPhotoCheck.setText("Mostrar Imagen frontal (Desactivar si se desea ver sólo la clase Graphics)");
         showPhotoCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showPhotoCheckActionPerformed(evt);
             }
         });
 
-        sauvegarder.setText("Guardar mapa");
-        sauvegarder.addActionListener(new java.awt.event.ActionListener() {
+        showPesoCheck.setText("Mostrar tiempo entre Estaciones");
+        showPesoCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sauvegarderActionPerformed(evt);
+                showPesoCheckActionPerformed(evt);
             }
         });
 
-        ouvrir.setText("Cargar mapa");
-        ouvrir.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout graphOptionPaneLayout = new javax.swing.GroupLayout(graphOptionPane);
+        graphOptionPane.setLayout(graphOptionPaneLayout);
+        graphOptionPaneLayout.setHorizontalGroup(
+            graphOptionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(graphOptionPaneLayout.createSequentialGroup()
+                .addGroup(graphOptionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(showPhotoCheck)
+                    .addComponent(showPesoCheck))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        graphOptionPaneLayout.setVerticalGroup(
+            graphOptionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(graphOptionPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(showPhotoCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showPesoCheck))
+        );
+
+        fileSettingPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Configuración de Guardado/Cargado"));
+
+        CargarButton.setText("Cargar Mapa personalizado (Sólo si se tiene un archivo GFM válido)");
+        CargarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ouvrirActionPerformed(evt);
+                CargarButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Opciones de cargado de mapa (Usar sólo si se tiene un archivo .gfm válido para cargar)");
+        guardarButton.setText("Guardar Mapa actual");
+        guardarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarButtonActionPerformed(evt);
+            }
+        });
 
-        editArete.setText("Editar Estación");
+        newMapaButton.setText("Crear Mapa nuevo (Habilita la adición de Aristas)");
+        newMapaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMapaButtonActionPerformed(evt);
+            }
+        });
+
+        defaultButton.setText("Cargar mapa por defecto");
+        defaultButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                defaultButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fileSettingPaneLayout = new javax.swing.GroupLayout(fileSettingPane);
+        fileSettingPane.setLayout(fileSettingPaneLayout);
+        fileSettingPaneLayout.setHorizontalGroup(
+            fileSettingPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(CargarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+            .addComponent(guardarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(newMapaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(defaultButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        fileSettingPaneLayout.setVerticalGroup(
+            fileSettingPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileSettingPaneLayout.createSequentialGroup()
+                .addComponent(CargarButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(guardarButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(newMapaButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(defaultButton)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
+        editSettingsPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Opciones de Edición"));
+
+        editArete.setText("Editar Estación (Solo válido cuando se tiene una estación seleccionada)");
         editArete.setEnabled(false);
         editArete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,69 +188,165 @@ public final class Mapa extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Opciones de la estación seleccionada (Solo válido si se tiene una estación seleccionada actualmente)");
+        adicionCheck.setText("Habilitar adición de estaciones en el mapa");
+        adicionCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionCheckActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout editSettingsPaneLayout = new javax.swing.GroupLayout(editSettingsPane);
+        editSettingsPane.setLayout(editSettingsPaneLayout);
+        editSettingsPaneLayout.setHorizontalGroup(
+            editSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(editArete, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editSettingsPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(adicionCheck)
+                .addGap(139, 139, 139))
+        );
+        editSettingsPaneLayout.setVerticalGroup(
+            editSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editSettingsPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editArete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adicionCheck))
+        );
 
         javax.swing.GroupLayout settingFrameLayout = new javax.swing.GroupLayout(settingFrame.getContentPane());
         settingFrame.getContentPane().setLayout(settingFrameLayout);
         settingFrameLayout.setHorizontalGroup(
             settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingFrameLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(sauvegarder)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ouvrir)
-                .addGap(177, 177, 177))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingFrameLayout.createSequentialGroup()
-                        .addComponent(showPhotoCheck)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingFrameLayout.createSequentialGroup()
-                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1))
-                .addContainerGap())
-            .addGroup(settingFrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(editArete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(graphOptionPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fileSettingPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(editSettingsPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         settingFrameLayout.setVerticalGroup(
             settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(showPhotoCheck)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(graphOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sauvegarder)
-                    .addComponent(ouvrir))
+                .addComponent(fileSettingPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(editSettingsPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        routeFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Obtener una Ruta");
+
+        jLabel3.setText("Elija el tipo de ruta que desea");
+
+        buttonGroup1.add(kruskalRadio);
+        kruskalRadio.setSelected(true);
+        kruskalRadio.setText("Recorrer todo el metro");
+
+        buttonGroup1.add(primRadio);
+        primRadio.setText("Recorrer todo el metro (Desde un punto)");
+
+        buttonGroup1.add(dijkstraRadio);
+        dijkstraRadio.setText("Llegar de una estación a otra");
+
+        jLabel5.setText("Punto de inicio");
+
+        jLabel6.setText("Destino");
+
+        recorridoButton.setText("Iniciar recorrido");
+        recorridoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recorridoButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout routeFrameLayout = new javax.swing.GroupLayout(routeFrame.getContentPane());
+        routeFrame.getContentPane().setLayout(routeFrameLayout);
+        routeFrameLayout.setHorizontalGroup(
+            routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(routeFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(routeFrameLayout.createSequentialGroup()
+                        .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(kruskalRadio)
+                            .addComponent(primRadio)
+                            .addComponent(dijkstraRadio))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, routeFrameLayout.createSequentialGroup()
+                        .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(routeFrameLayout.createSequentialGroup()
+                                .addComponent(inicioComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(routeFrameLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(141, 141, 141)))
+                        .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(destinoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+            .addGroup(routeFrameLayout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addComponent(recorridoButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        routeFrameLayout.setVerticalGroup(
+            routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, routeFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editArete)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addComponent(kruskalRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(primRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dijkstraRadio)
+                .addGap(10, 10, 10)
+                .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(routeFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inicioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(destinoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(recorridoButton)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(527, 996));
         setSize(new java.awt.Dimension(688, 1773));
+
+        drawPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        drawPanel.setMaximumSize(new java.awt.Dimension(969, 800));
+        drawPanel.setMinimumSize(new java.awt.Dimension(969, 800));
+        drawPanel.setName(""); // NOI18N
+        drawPanel.setPreferredSize(new java.awt.Dimension(969, 800));
+        drawPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                drawPanelMouseClicked(evt);
+            }
+        });
+        drawPanel.setLayout(null);
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mapaLimpio.png"))); // NOI18N
+        jLabel4.setText("jLabel4");
+        drawPanel.add(jLabel4);
+        jLabel4.setBounds(0, 0, 970, 800);
 
         enruter.setText("Obtener Ruta");
         enruter.addActionListener(new java.awt.event.ActionListener() {
@@ -177,21 +359,6 @@ public final class Mapa extends javax.swing.JFrame {
         output.setColumns(20);
         output.setRows(5);
         jScrollPane1.setViewportView(output);
-
-        drawPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        drawPanel.setMaximumSize(new java.awt.Dimension(656, 781));
-        drawPanel.setMinimumSize(new java.awt.Dimension(656, 781));
-        drawPanel.setPreferredSize(new java.awt.Dimension(656, 781));
-        drawPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                drawPanelMouseClicked(evt);
-            }
-        });
-        drawPanel.setLayout(null);
-
-        fondoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/metro.jpg"))); // NOI18N
-        drawPanel.add(fondoLabel);
-        fondoLabel.setBounds(0, -10, 660, 820);
 
         settingButton.setText("Configuración");
         settingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -208,11 +375,11 @@ public final class Mapa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(settingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(enruter, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -222,11 +389,11 @@ public final class Mapa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(drawPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                    .addComponent(enruter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(settingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(settingButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(enruter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -250,98 +417,122 @@ public final class Mapa extends javax.swing.JFrame {
             }
         }
         if (!collide) {                                             //Si no se hizo clic sobre un vertice
-            sel = null;
-            Connections c = new Connections(graphe, this, evt.getPoint()); //Abre la ventana de cración/Edición de vértices con constructor de creación
-            c.setVisible(true);
-            drawBG();
-            dessinerGraphe();
+            if (adicionCheck.isSelected()) {
+                sel = null;
+                this.setEnabled(false);
+                Connections c = new Connections(graphe, this, evt.getPoint()); //Abre la ventana de cración/Edición de vértices con constructor de creación
+                c.setVisible(true);
+            } else {
+                dessinerGraphe();
+            }
         } else {
-            drawBG();
-            dessinerGraphe(found);
             sel = found;
             showInfo(found);
         }
         setupButtons();
     }//GEN-LAST:event_drawPanelMouseClicked
     
-    //Boton guardar
-    private void sauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sauvegarderActionPerformed
-        Ficheur f = new Ficheur();
-        f.sauvegarder(graphe); 
-    }//GEN-LAST:event_sauvegarderActionPerformed
-    
-    //Boton Abrir
-    private void ouvrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirActionPerformed
-        Ficheur f = new Ficheur();
-        this.graphe = f.ouvrir(); //Carga el grafo de un archivo y lo dibuja
-        dessinerGraphe();
-    }//GEN-LAST:event_ouvrirActionPerformed
-    
-    /**
-     * Abre la ventana de conexiones con el constructor para Editar vértices 
-     */
-    private void editAreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAreteActionPerformed
-        if (sel != null) {
-            new Connections(graphe, this, sel).setVisible(true);
-        }
-    }//GEN-LAST:event_editAreteActionPerformed
-    
+   
+   
+   
     /**
      * Función que se llama al presionar el botón para mostrar las rutas <p>
      * Genera un MST y lo dibuja
      */
     private void enruterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enruterActionPerformed
-        dessinerGraphe(graphe.kruskalMST());
+        DefaultComboBoxModel<String> model;
+        model = new DefaultComboBoxModel<>();
+        for (Sommet sommet : graphe.getSommAdj().keySet()) {
+            model.addElement(sommet.nombre);
+        }
+        inicioComboBox.setModel(model);
+        destinoComboBox.setModel(model);
+        routeFrame.setVisible(true);
     }//GEN-LAST:event_enruterActionPerformed
-
+    
     private void settingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingButtonActionPerformed
         settingFrame.setLocationRelativeTo(null);
         settingFrame.pack();
         settingFrame.setVisible(true);
     }//GEN-LAST:event_settingButtonActionPerformed
 
+//GEN-FIRST:event_ouvrirActionPerformed
+ 
+//GEN-LAST:event_ouvrirActionPerformed
+
+//GEN-FIRST:event_sauvegarderActionPerformed
+ 
+//GEN-LAST:event_sauvegarderActionPerformed
+
     private void showPhotoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPhotoCheckActionPerformed
-        if (showPhotoCheck.isSelected()) {
-            fondoLabel.setVisible(true);
-        } else {
-            fondoLabel.setVisible(false);
-        }
+        dessinerGraphe();
     }//GEN-LAST:event_showPhotoCheckActionPerformed
 
+    private void showPesoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPesoCheckActionPerformed
+        dessinerGraphe();
+    }//GEN-LAST:event_showPesoCheckActionPerformed
+
+    private void adicionCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionCheckActionPerformed
+
+    }//GEN-LAST:event_adicionCheckActionPerformed
+
+    private void editAreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAreteActionPerformed
+        Connections c = new Connections(graphe, this, sel);
+        this.setEnabled(false);
+        c.setVisible(true);
+    }//GEN-LAST:event_editAreteActionPerformed
+
     /**
-     * @param args the command line arguments
+     * Función del botón cargar, abre un archivo .GFM y lo carga al programa
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Mapa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Mapa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Mapa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Mapa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void CargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarButtonActionPerformed
+       Ficheur f = new Ficheur();
+       this.graphe = f.ouvrir();
+       dessinerGraphe();
+       settingFrame.setVisible(false);
+       this.setEnabled(true);
+    }//GEN-LAST:event_CargarButtonActionPerformed
+
+    private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
+        Ficheur f = new Ficheur();
+        f.sauvegarder(graphe);
+        dessinerGraphe();
+        settingFrame.setVisible(false);
+        this.setEnabled(true);
+    }//GEN-LAST:event_guardarButtonActionPerformed
+
+    private void newMapaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMapaButtonActionPerformed
+        int sel = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el mapa y empezar de 0?", "Eliminar mapa", 0, 2);
+        if (sel == 0) {
+            this.graphe = new Graphe();
+            dessinerGraphe();
         }
-        //</editor-fold>
+        
+    }//GEN-LAST:event_newMapaButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            Mapa m = new Mapa();
-            m.setVisible(true);
-        });
-    }
+    private void settingFrameWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_settingFrameWindowClosed
 
+    }//GEN-LAST:event_settingFrameWindowClosed
+
+    private void recorridoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recorridoButtonActionPerformed
+        if (kruskalRadio.isSelected()) {
+            dessinerGraphe(graphe.kruskalMST());
+        } else if (primRadio.isSelected()) {
+            Sommet start = graphe.getSommet((String)inicioComboBox.getSelectedItem());
+            dessinerGraphe(graphe.primMST(start));
+        } else {
+            Sommet start = graphe.getSommet((String)inicioComboBox.getSelectedItem());
+            Sommet dest = graphe.getSommet((String)destinoComboBox.getSelectedItem());
+            dessinerGraphe(graphe.Dijkstra(start, dest));
+        }
+        routeFrame.setVisible(false);
+    }//GEN-LAST:event_recorridoButtonActionPerformed
+
+    private void defaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonActionPerformed
+        this.graphe = new Ficheur().ouvrir(getClass().getResource("/STMFINAL.gfm").getPath());
+        dessinerGraphe();
+        settingFrame.setVisible(false);
+    }//GEN-LAST:event_defaultButtonActionPerformed
    
     /**
      * Función que se encarga de dibujar el grafo en pantalla sobre el panel de dibujo
@@ -361,12 +552,20 @@ public final class Mapa extends javax.swing.JFrame {
                 y2 = sommet.pos.y;
                 int xMed = (x1+x2)/2;                                           //Se obtiene el punto medio [X,Y] en la arista a dibujar para poner el peso de la misma
                 int yMed = (y1+y2)/2;
-                g.setColor(Color.black);
+                if (rel.getKey().ligne ==  Ligne.LIGNE_MULTI) {
+                    g.setColor(getColor(entry.getKey()));
+                } else if (entry.getKey().ligne == Ligne.LIGNE_MULTI) {
+                    g.setColor(getColor(rel.getKey()));
+                } else {
+                    g.setColor(getColor(rel.getKey()));
+                }
                 g.drawLine(x1, y1, x2, y2);
-                g.setColor(Color.BLACK);
-                g.fillRect(xMed-7, yMed-7, 14, 14);
-                g.setColor(Color.white);
-                g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
+                if (showPesoCheck.isSelected()) {
+                    g.setColor(Color.BLACK);
+                    g.fillRect(xMed-7, yMed-7, 14, 14);
+                    g.setColor(Color.white);
+                    g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
+                }
             }
             g.setColor(getColor(entry.getKey()));
             g.fillOval(x1-5, y1-5, 10, 10);
@@ -396,12 +595,20 @@ public final class Mapa extends javax.swing.JFrame {
                 y2 = sommet.pos.y;
                 xMed = (x1+x2)/2;
                 yMed = (y1 + y2)/2;
-                g.setColor(Color.black);
+                if (rel.getKey().ligne ==  Ligne.LIGNE_MULTI) {
+                    g.setColor(getColor(entry.getKey()));
+                } else if (entry.getKey().ligne == Ligne.LIGNE_MULTI) {
+                    g.setColor(getColor(rel.getKey()));
+                } else {
+                    g.setColor(getColor(rel.getKey()));
+                }
                 g.drawLine(x1, y1, x2, y2);
-                g.setColor(Color.BLACK);
-                g.fillRect(xMed-7, yMed-7, 14, 14);
-                g.setColor(Color.white);
-                g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
+                if (showPesoCheck.isSelected()) {
+                    g.setColor(Color.BLACK);
+                    g.fillRect(xMed-7, yMed-7, 14, 14);
+                    g.setColor(Color.white);
+                    g.drawString(String.valueOf(rel.getValue()), xMed-5, yMed+4);
+                }
             }
             if (entry.getKey().equals(v)) {
                 g.setColor(Color.red);
@@ -413,10 +620,10 @@ public final class Mapa extends javax.swing.JFrame {
     }
     
     public void dessinerGraphe(Graphe graph) {
-        dessinerGraphe();
         if (showPhotoCheck.isSelected()) {
             drawBG();
         }
+        dessinerGraphe();
         graph.getSommAdj().entrySet().forEach((entry) -> { //Se busca en el mapa cada combinación de llave-dato (Expresión lambda)
             int x1, y1, x2, y2;                             //Posición inicial-final de la linea y de cada vertice
             x1 = entry.getKey().pos.x;                      //obtener [X,Y] del nodo por graficar
@@ -431,10 +638,13 @@ public final class Mapa extends javax.swing.JFrame {
                 g.drawLine(x1, y1, x2, y2);
                 g.drawLine(x1+1, y1, x2+1, y2);
                 g.drawLine(x1-1, y1, x2-1, y2);
-                g.setColor(Color.BLACK);
-                g.fillRect(xMed-7, yMed-7, 14, 14);
-                g.setColor(Color.white);
-                g.drawString(String.valueOf(rel.getValue()), xMed-6, yMed+5);
+                if (showPesoCheck.isSelected()) {
+                    g.setColor(Color.BLACK);
+                    g.fillRect(xMed-7, yMed-7, 14, 14);
+                    g.setColor(Color.white);
+                    g.drawString(String.valueOf(rel.getValue()), xMed-6, yMed+5);
+                }
+                
             }
             g.setColor(Color.getHSBColor((float)0.7, (float)1, (float)1));
             g.fillOval(x1-5, y1-5, 10, 10);
@@ -451,7 +661,7 @@ public final class Mapa extends javax.swing.JFrame {
     }
     
     private void drawBG() {
-        g.drawImage(bg, 0, 0, null);
+        g.drawImage(fondo.getImage(),0, 0, null);
     }
     
     /**
@@ -502,21 +712,36 @@ public final class Mapa extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CargarButton;
+    private javax.swing.JCheckBox adicionCheck;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton defaultButton;
+    private javax.swing.JComboBox<String> destinoComboBox;
+    private javax.swing.JRadioButton dijkstraRadio;
     private javax.swing.JPanel drawPanel;
     private javax.swing.JButton editArete;
+    private javax.swing.JPanel editSettingsPane;
     private javax.swing.JButton enruter;
-    private javax.swing.JLabel fondoLabel;
+    private javax.swing.JPanel fileSettingPane;
+    private javax.swing.JPanel graphOptionPane;
+    private javax.swing.JButton guardarButton;
+    private javax.swing.JComboBox<String> inicioComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JRadioButton kruskalRadio;
+    private javax.swing.JButton newMapaButton;
     private javax.swing.JTextArea output;
-    private javax.swing.JButton ouvrir;
-    private javax.swing.JButton sauvegarder;
+    private javax.swing.JRadioButton primRadio;
+    private javax.swing.JButton recorridoButton;
+    private javax.swing.JFrame routeFrame;
     private javax.swing.JButton settingButton;
     private javax.swing.JFrame settingFrame;
+    private javax.swing.JCheckBox showPesoCheck;
     private javax.swing.JCheckBox showPhotoCheck;
     // End of variables declaration//GEN-END:variables
     

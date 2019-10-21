@@ -7,7 +7,6 @@ package com.guacha.lab2;
 
 import java.awt.Point;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -92,6 +91,7 @@ public class Ficheur {
                     }
                     line = reader.readLine();
                 }
+                reader.close();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Ficheur.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -127,6 +127,7 @@ public class Ficheur {
                 }
                 line = reader.readLine();
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Ficheur.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

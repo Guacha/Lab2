@@ -1,0 +1,314 @@
+Cadillac:LIGNE_VERTE:677:122
+Jean-Talon:LIGNE_MULTI:446:313
+Station Du Parc:LIGNE_BLEUE:412:354
+Papineau:LIGNE_VERTE:660:389
+Saint-Michel:LIGNE_BLEUE:496:210
+Côte-Vertu:LIGNE_ORANGE:210:437
+McGill:LIGNE_VERTE:597:479
+Georges-Vanier:LIGNE_ORANGE:575:557
+Côte-Sainte-Catherine:LIGNE_ORANGE:382:542
+Acadie:LIGNE_BLEUE:414:392
+Université-De-Montréal:LIGNE_BLEUE:432:490
+Jarry:LIGNE_ORANGE:415:299
+Place-d'Armes:LIGNE_ORANGE:634:473
+Beaubien:LIGNE_ORANGE:480:329
+De l'Église:LIGNE_VERTE:606:692
+Beaudry:LIGNE_VERTE:647:410
+Plamondon:LIGNE_ORANGE:363:530
+Station Peel:LIGNE_VERTE:580:503
+Snowdon:LIGNE_MULTI:399:573
+Atwater:LIGNE_VERTE:549:554
+Gare Lucien L'Allier:LIGNE_ORANGE:597:528
+La Salle:LIGNE_VERTE:611:647
+Charlevoix:LIGNE_VERTE:601:612
+Radisson:LIGNE_VERTE:703:63
+Place-des-Arts:LIGNE_VERTE:610:455
+Frontenac:LIGNE_VERTE:659:339
+D'Iberville:LIGNE_BLEUE:465:275
+Villa Maria:LIGNE_ORANGE:422:601
+Henri-Bourassa:LIGNE_ORANGE:263:230
+Angrignon:LIGNE_VERTE:482:768
+Du collège:LIGNE_ORANGE:241:462
+De Castelnau:LIGNE_BLEUE:424:328
+Verdun:LIGNE_VERTE:590:705
+Langelier:LIGNE_VERTE:689:98
+Gare De la Concorde:LIGNE_ORANGE:116:205
+Rosemont:LIGNE_ORANGE:499:351
+Outremont:LIGNE_BLEUE:442:403
+Assomption:LIGNE_VERTE:678:165
+Guy-Concordia:LIGNE_VERTE:564:528
+Mont-Royal:LIGNE_ORANGE:556:383
+Champ de Mars:LIGNE_ORANGE:645:444
+Pie-IX:LIGNE_VERTE:658:239
+Honoré-Beaugrand:LIGNE_VERTE:719:29
+Namur:LIGNE_ORANGE:309:528
+Joliette:LIGNE_VERTE:661:273
+Station Cartier:LIGNE_ORANGE:208:208
+Monk:LIGNE_VERTE:517:745
+Montmorrency:LIGNE_ORANGE:76:217
+Côte-Des-Neiges:LIGNE_BLEUE:415:524
+Lionel-Groulx:LIGNE_MULTI:564:586
+Viau:LIGNE_VERTE:676:206
+Gare Sauvé:LIGNE_ORANGE:302:257
+Laurier:LIGNE_ORANGE:536:370
+Gare Vendôme:LIGNE_ORANGE:479:632
+Cremazie:LIGNE_ORANGE:362:280
+Jolicoeur:LIGNE_VERTE:554:717
+Berri-UQAM:LIGNE_MULTI:632:430
+De la Savane:LIGNE_ORANGE:279:500
+Sherbrooke:LIGNE_ORANGE:600:412
+Bonaventure:LIGNE_ORANGE:616:500
+Préfontaine:LIGNE_VERTE:651:300
+Édouard-Montpetit:LIGNE_BLEUE:451:456
+CONNECTIONS
+Cadillac
+	Langelier:2
+	Assomption:4
+FIN
+Jean-Talon
+	Beaubien:3
+	D'Iberville:3
+	Jarry:3
+	De Castelnau:2
+FIN
+Station Du Parc
+	Acadie:3
+	De Castelnau:1
+FIN
+Papineau
+	Beaudry:3
+	Frontenac:4
+FIN
+Saint-Michel
+	D'Iberville:4
+FIN
+Côte-Vertu
+	Du collège:2
+FIN
+McGill
+	Station Peel:2
+	Place-des-Arts:2
+FIN
+Georges-Vanier
+	Gare Lucien L'Allier:3
+	Lionel-Groulx:3
+FIN
+Côte-Sainte-Catherine
+	Plamondon:1
+	Snowdon:2
+FIN
+Acadie
+	Station Du Parc:3
+	Outremont:3
+FIN
+Université-De-Montréal
+	Édouard-Montpetit:3
+	Côte-Des-Neiges:2
+FIN
+Jarry
+	Jean-Talon:3
+	Cremazie:3
+FIN
+Place-d'Armes
+	Bonaventure:2
+	Champ de Mars:4
+FIN
+Beaubien
+	Rosemont:3
+	Jean-Talon:3
+FIN
+De l'Église
+	Verdun:2
+	La Salle:3
+FIN
+Beaudry
+	Papineau:3
+	Berri-UQAM:2
+FIN
+Plamondon
+	Namur:2
+	Côte-Sainte-Catherine:1
+FIN
+Station Peel
+	McGill:2
+	Guy-Concordia:2
+FIN
+Snowdon
+	Côte-Sainte-Catherine:2
+	Côte-Des-Neiges:3
+	Villa Maria:2
+FIN
+Atwater
+	Guy-Concordia:3
+	Lionel-Groulx:3
+FIN
+Gare Lucien L'Allier
+	Bonaventure:2
+	Georges-Vanier:3
+FIN
+La Salle
+	De l'Église:3
+	Charlevoix:3
+FIN
+Charlevoix
+	La Salle:3
+	Lionel-Groulx:3
+FIN
+Radisson
+	Langelier:4
+	Honoré-Beaugrand:5
+FIN
+Place-des-Arts
+	McGill:2
+	Berri-UQAM:4
+FIN
+Frontenac
+	Préfontaine:4
+	Papineau:4
+FIN
+D'Iberville
+	Jean-Talon:3
+	Saint-Michel:4
+FIN
+Villa Maria
+	Gare Vendôme:5
+	Snowdon:2
+FIN
+Henri-Bourassa
+	Gare Sauvé:2
+	Station Cartier:4
+FIN
+Angrignon
+	Monk:4
+FIN
+Du collège
+	De la Savane:4
+	Côte-Vertu:2
+FIN
+De Castelnau
+	Jean-Talon:2
+	Station Du Parc:1
+FIN
+Verdun
+	De l'Église:2
+	Jolicoeur:3
+FIN
+Langelier
+	Cadillac:2
+	Radisson:4
+FIN
+Gare De la Concorde
+	Station Cartier:7
+	Montmorrency:3
+FIN
+Rosemont
+	Beaubien:3
+	Laurier:1
+FIN
+Outremont
+	Édouard-Montpetit:4
+	Acadie:3
+FIN
+Assomption
+	Cadillac:4
+	Viau:3
+FIN
+Guy-Concordia
+	Station Peel:2
+	Atwater:3
+FIN
+Mont-Royal
+	Sherbrooke:3
+	Laurier:2
+FIN
+Champ de Mars
+	Berri-UQAM:2
+	Place-d'Armes:4
+FIN
+Pie-IX
+	Joliette:3
+	Viau:4
+FIN
+Honoré-Beaugrand
+	Radisson:5
+FIN
+Namur
+	De la Savane:1
+	Plamondon:2
+FIN
+Joliette
+	Pie-IX:3
+	Préfontaine:3
+FIN
+Station Cartier
+	Gare De la Concorde:7
+	Henri-Bourassa:4
+FIN
+Monk
+	Angrignon:4
+	Jolicoeur:4
+FIN
+Montmorrency
+	Gare De la Concorde:3
+FIN
+Côte-Des-Neiges
+	Snowdon:3
+	Université-De-Montréal:2
+FIN
+Lionel-Groulx
+	Georges-Vanier:3
+	Gare Vendôme:6
+	Atwater:3
+	Charlevoix:3
+FIN
+Viau
+	Pie-IX:4
+	Assomption:3
+FIN
+Gare Sauvé
+	Cremazie:3
+	Henri-Bourassa:2
+FIN
+Laurier
+	Rosemont:1
+	Mont-Royal:2
+FIN
+Gare Vendôme
+	Villa Maria:5
+	Lionel-Groulx:6
+FIN
+Cremazie
+	Gare Sauvé:3
+	Jarry:3
+FIN
+Jolicoeur
+	Verdun:3
+	Monk:4
+FIN
+Berri-UQAM
+	Beaudry:2
+	Sherbrooke:3
+	Place-des-Arts:4
+	Champ de Mars:2
+FIN
+De la Savane
+	Namur:1
+	Du collège:4
+FIN
+Sherbrooke
+	Mont-Royal:3
+	Berri-UQAM:3
+FIN
+Bonaventure
+	Gare Lucien L'Allier:2
+	Place-d'Armes:2
+FIN
+Préfontaine
+	Joliette:3
+	Frontenac:4
+FIN
+Édouard-Montpetit
+	Outremont:4
+	Université-De-Montréal:3
+FIN
+FIN-ALGORITMO
